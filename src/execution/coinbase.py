@@ -26,8 +26,8 @@ class CoinbaseExecutor(BaseExecutor):
     async def _get_exchange(self) -> ccxt.Exchange:
         if self._exchange is None:
             self._exchange = ccxt.coinbase({
-                "apiKey": self.config.coinbase_api_key,
-                "secret": self.config.coinbase_api_secret,
+                "apiKey": self.config.coinbase_api_key_name,
+                "secret": self.config.coinbase_api_private_key,
                 "enableRateLimit": True,
             })
         return self._exchange

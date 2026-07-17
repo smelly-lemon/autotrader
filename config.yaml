@@ -5,6 +5,8 @@ trading:
     - SOL/USD
   mode: paper
   initial_balance: 100.0
+  taker_fee_pct: 0.012   # Coinbase starter tier (<$1K/mo volume); silver = 0.004
+  slippage_pct: 0.0005
 
 schedule:
   signal_interval_seconds: 60

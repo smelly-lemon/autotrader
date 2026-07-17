@@ -1,72 +1,82 @@
-# Auto-Trader
+# auto-trader
 
-LLM-autonomous crypto trading system running 24/7 on local hardware with Ollama models.
+Crypto trading **research platform** for Coinbase markets. Paper trading only.
 
-## Architecture
+Three strategy generations have been built and evaluated here. None demonstrated
+a durable, statistically significant edge net of realistic fees — that negative
+result is documented in `results/` and is the project's main finding to date.
 
-Three-tier model strategy:
+| Generation | Approach | Verdict |
+|---|---|---|
+| 1 | Three-tier local LLM council (Ollama) | Abandoned; removed from tree (see git history) |
+| 2 | LightGBM on 52 microstructure features, 4h bars | In-sample Sharpe 6.6 collapsed to ~0 edge in expanding-window OOS |
+| 3 | LightGBM on 1-min OHLCV features, 15-min horizon | 934 paper trades in 10 days ≈ break-even *before* fees |
 
-- **Tier 1 - Scanner** (`mistral:7b`): Fast scan every 2 minutes across all pairs
-- **Tier 2 - Analyzer** (`qwen3.6:35b`): Deep multi-timeframe analysis on detected opportunities
-- **Tier 3 - Strategist** (`gpt-oss:120b`): Portfolio review every 4 hours
+## Current focus
 
-A hard-coded risk manager sits between the LLM and execution and cannot be overridden by model output.
+Durable data collection first; model claims only after 30+ days of fresh data
+and pre-registered validation criteria (expanding-window OOS, net of
+starter-tier fees, Sharpe CI excluding zero).
 
-## Quick Start
+## Setup
 
 ```bash
-# Create venv with Python 3.11+
-python3.13 -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"
-
-# Copy and configure environment
-cp .env.example .env
-# Edit .env with your Coinbase API keys (only needed for live trading)
-
-# Make sure Ollama is running
-ollama serve
-
-# Start in paper trading mode (default)
-python -m src.main
+uv venv --python 3.13 .venv
+uv pip install -p .venv/bin/python -e ".[dev]"
+.venv/bin/python -m pytest tests/ -q
 ```
 
-The dashboard will be available at http://localhost:8080.
+## Data collection (runs 24/7 under launchd)
+
+`scripts/live_collector.py` polls Coinbase REST for tickers + trades on 12
+pairs and appends daily-sharded parquet to `data/raw/` — same schema as the
+legacy Jetson/InfluxDB archive (Nov 2025 → May 2026), which
+`src/data/influx_client.py:LocalParquetClient` reads transparently alongside
+the new shards.
+
+```bash
+cp deploy/launchd/com.autotrader.*.plist ~/Library/LaunchAgents/
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.autotrader.collector.plist
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.autotrader.heartbeat.plist
+tail -f logs/collector.log
+```
+
+The heartbeat job checks twice daily that fresh parquet is being written and
+raises a macOS notification if the feed is stale (`scripts/heartbeat.py`).
+
+## Paper trading loop (off by default — data first)
+
+```bash
+.venv/bin/python -m src.main
+```
+
+`src/main.py` runs the gen-3 loop: 1-min candle ingestion into SQLite →
+periodic LightGBM retrain with purged walk-forward CV (won't trade below a
+minimum CV AUC) → signal generation → `PaperExecutor`, which models
+starter-tier taker fees (1.2%) and slippage so results are honest, and
+restores open positions from the DB after a restart. Hard risk limits
+(position cap, max positions, daily-drawdown halt) are enforced in the loop.
+
+## Research pipeline
+
+- `scripts/model_search_v2.py` — feature/config search with purged
+  walk-forward CV, spread + fee modeling, Sharpe confidence intervals, and
+  expanding-window OOS validation (`--stream A|B|C`)
+- `src/ml/` — feature engineering (microstructure + OHLCV), trainers,
+  backtest engine, live/paper runners
+- `results/` — all search reports and OOS validations (committed; these are
+  the evidence)
 
 ## Configuration
 
-Edit `config.yaml` to adjust:
+`config.yaml` — pairs, schedule, ML thresholds, risk limits, simulated fee
+tier. Secrets live in `.env` (see `.env.example`); nothing secret is committed.
 
-- Trading pairs
-- Model selection (any Ollama model)
-- Risk parameters (position sizing, stop-loss, drawdown limits)
-- Scan intervals
-- Paper vs live mode
+## Hard-won operational rules
 
-## Risk Management
-
-Hard limits that cannot be overridden by any model:
-
-| Limit | Default | Hard Max |
-|-------|---------|----------|
-| Position size | 15% | 25% |
-| Open positions | 3 | 5 |
-| Daily drawdown | 5% | 10% |
-| Stop-loss | 3% | min 0.5% |
-| Single trade loss | 2% | 5% |
-| Loss cooldown | 15 min | min 60s |
-
-## Going Live
-
-1. Paper trade for at least 2 weeks
-2. Review performance on the dashboard
-3. Create Coinbase Advanced Trade API keys
-4. Add keys to `.env`
-5. Change `mode: live` in `config.yaml`
-6. Start with minimum position sizes
-
-## Tests
-
-```bash
-python -m pytest tests/ -v
-```
+1. Commit early and often — this repo once lost most of its working tree with
+   zero commits to restore from.
+2. Long-running processes go under launchd with `KeepAlive`, logs, and a
+   heartbeat — silent death cost this project 7 weeks of data.
+3. Model claims require expanding-window OOS at realistic fee tiers; a good
+   holdout number selected during search is not evidence.

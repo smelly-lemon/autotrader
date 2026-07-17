@@ -41,7 +41,13 @@ class MLTrader:
         self.collector = MarketDataCollector(config)
 
         if config.trading.mode == "paper":
-            self.executor = PaperExecutor(config.trading.initial_balance, self.store)
+            self.executor = PaperExecutor(
+                config.trading.initial_balance,
+                self.store,
+                fee_pct=config.trading.taker_fee_pct,
+                slippage_pct=config.trading.slippage_pct,
+            )
+            self.executor.restore_state()
         else:
             from src.execution.coinbase import CoinbaseExecutor
             self.executor = CoinbaseExecutor(config, self.store)
@@ -316,9 +322,7 @@ class MLTrader:
 
                 # Log status
                 balance = await self.executor.get_balance()
-                total = balance["cash"]
-                for pos in self.executor.positions.values():
-                    total += pos.amount * pos.entry_price
+                total = balance["total_value"]
                 daily_pnl = self.store.get_daily_pnl()
 
                 if self._cycle_count % 5 == 0:

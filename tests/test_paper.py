@@ -1,5 +1,4 @@
 import pytest
-import pytest_asyncio
 
 from src.data.store import TradeStore
 from src.execution.paper import PaperExecutor
@@ -12,6 +11,13 @@ def store(tmp_path):
 
 @pytest.fixture
 def executor(store):
+    """Zero-cost executor for pure position/cash arithmetic tests."""
+    return PaperExecutor(initial_balance=1000.0, store=store, fee_pct=0.0, slippage_pct=0.0)
+
+
+@pytest.fixture
+def real_cost_executor(store):
+    """Executor with default (starter-tier) fees and slippage."""
     return PaperExecutor(initial_balance=1000.0, store=store)
 
 
@@ -75,9 +81,53 @@ async def test_get_balance(executor):
 
 
 @pytest.mark.asyncio
+async def test_total_value_includes_positions(executor):
+    await executor.execute_buy("BTC/USD", 100.0, 50000.0)
+    balance = await executor.get_balance()
+    # 900 cash + 100 position (marked at entry) = 1000
+    assert balance["total_value"] == pytest.approx(1000.0)
+
+    await executor.check_stop_losses({"BTC/USD": 51000.0})  # updates marks, no trigger
+    balance = await executor.get_balance()
+    assert balance["total_value"] == pytest.approx(900.0 + 100.0 * 51000.0 / 50000.0)
+
+
+@pytest.mark.asyncio
 async def test_trade_logged_to_store(executor, store):
     await executor.execute_buy("BTC/USD", 100.0, 50000.0)
     trades = store.get_open_trades()
     assert len(trades) == 1
     assert trades[0]["symbol"] == "BTC/USD"
     assert trades[0]["side"] == "buy"
+
+
+@pytest.mark.asyncio
+async def test_fees_and_slippage_reduce_roundtrip(real_cost_executor, store):
+    """A flat round-trip must lose ~2x(fee+slippage), and stored pnl reflects it."""
+    await real_cost_executor.execute_buy("BTC/USD", 100.0, 50000.0)
+    pos = real_cost_executor.positions["BTC/USD"]
+    await real_cost_executor.execute_sell("BTC/USD", pos.amount, 50000.0)
+
+    loss = 1000.0 - real_cost_executor.cash
+    expected = 100.0 * (0.012 + 0.0005) * 2
+    assert loss == pytest.approx(expected, rel=0.05)
+
+    trade = store.get_recent_trades(1)[0]
+    assert trade["status"] == "closed"
+    assert trade["pnl"] == pytest.approx(-loss, rel=0.05)
+
+
+@pytest.mark.asyncio
+async def test_restore_state_from_store(store):
+    ex1 = PaperExecutor(initial_balance=1000.0, store=store, fee_pct=0.0, slippage_pct=0.0)
+    await ex1.execute_buy("BTC/USD", 100.0, 50000.0)
+    await ex1.execute_buy("ETH/USD", 50.0, 2000.0)
+    pos = ex1.positions["BTC/USD"]
+    await ex1.execute_sell("BTC/USD", pos.amount, 55000.0)  # +$10 realized
+
+    ex2 = PaperExecutor(initial_balance=1000.0, store=store, fee_pct=0.0, slippage_pct=0.0)
+    restored = ex2.restore_state()
+    assert restored == 1
+    assert "ETH/USD" in ex2.positions
+    assert ex2.positions["ETH/USD"].amount == pytest.approx(ex1.positions["ETH/USD"].amount)
+    assert ex2.cash == pytest.approx(ex1.cash)

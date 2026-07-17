@@ -21,6 +21,9 @@ class TradingConfig(BaseModel):
     pairs: list[str] = ["BTC/USD", "ETH/USD", "SOL/USD"]
     mode: Literal["paper", "live"] = "paper"
     initial_balance: float = 100.0
+    # Simulated execution costs (paper mode). Default = Coinbase starter tier.
+    taker_fee_pct: float = 0.012
+    slippage_pct: float = 0.0005
 
 
 class ScheduleConfig(BaseModel):

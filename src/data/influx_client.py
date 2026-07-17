@@ -323,25 +323,37 @@ class LocalParquetClient:
 
         path = self._dir / f"{key}.parquet"
         parts_dir = self._dir / f".parts_{key}"
+        # Daily shards written by scripts/live_collector.py (key.YYYYMMDD.parquet)
+        shard_files = sorted(self._dir.glob(f"{key}.*.parquet"))
 
+        frames: list[pd.DataFrame] = []
         if path.exists():
             logger.info("  Loading %s (%.1f MB)...", path.name, path.stat().st_size / 1e6)
-            df = pd.read_parquet(path)
+            frames.append(pd.read_parquet(path))
         elif parts_dir.exists():
             part_files = sorted(parts_dir.glob("part_*.parquet"))
-            if not part_files:
-                logger.debug("No part files in %s", parts_dir)
-                return pd.DataFrame()
-            logger.info("  Loading %d part files from %s...", len(part_files), parts_dir.name)
-            df = pd.concat([pd.read_parquet(p) for p in part_files])
-            df = df[~df.index.duplicated(keep="last")]
-            df.sort_index(inplace=True)
-            # Cache the combined result as a single parquet for next time
-            df.to_parquet(path, engine="pyarrow")
-            logger.info("  Combined -> %s (%.1f MB)", path.name, path.stat().st_size / 1e6)
-        else:
+            if part_files:
+                logger.info("  Loading %d part files from %s...", len(part_files), parts_dir.name)
+                combined = pd.concat([pd.read_parquet(p) for p in part_files])
+                combined = combined[~combined.index.duplicated(keep="last")]
+                combined.sort_index(inplace=True)
+                # Cache the combined result as a single parquet for next time
+                combined.to_parquet(path, engine="pyarrow")
+                logger.info("  Combined -> %s (%.1f MB)", path.name, path.stat().st_size / 1e6)
+                frames.append(combined)
+
+        if shard_files:
+            logger.info("  Loading %d daily shard files for %s...", len(shard_files), key)
+            frames.extend(pd.read_parquet(p) for p in shard_files)
+
+        if not frames:
             logger.debug("No parquet file: %s", path)
             return pd.DataFrame()
+
+        df = pd.concat(frames)
+        if isinstance(df.index, pd.DatetimeIndex):
+            df = df[~df.index.duplicated(keep="last")]
+            df.sort_index(inplace=True)
 
         # Handle raw (unpivoted) format from jetson_export.py:
         # columns: _time, _field, _value, product_id

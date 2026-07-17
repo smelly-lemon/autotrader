@@ -154,8 +154,15 @@ class LiveCollector:
         logger.info("  Flushed buffers to parquet")
 
     def _append_parquet(self, filename: str, new_data: pd.DataFrame):
-        """Append new data to existing parquet file."""
-        path = self.data_dir / filename
+        """Append new data to a daily-sharded parquet file.
+
+        Sharding by UTC day keeps the read-merge-rewrite append bounded to one
+        day of data, instead of growing without limit (the consolidated
+        archive files from the Jetson era are several hundred MB each).
+        """
+        day = datetime.now(timezone.utc).strftime("%Y%m%d")
+        stem = filename.rsplit(".parquet", 1)[0]
+        path = self.data_dir / f"{stem}.{day}.parquet"
         if path.exists():
             existing = pd.read_parquet(path)
             combined = pd.concat([existing, new_data])
