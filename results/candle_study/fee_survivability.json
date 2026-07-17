@@ -1,0 +1,666 @@
+{
+  "design": "see scripts/candle_study.py docstring (pre-registered)",
+  "pairs": [
+    "BTC/USD",
+    "ETH/USD",
+    "BTC/USDC",
+    "ETH/USDC",
+    "ETH/BTC",
+    "SOL/BTC",
+    "SOL/USD",
+    "XRP/USD",
+    "DOGE/USD",
+    "SHIB/USD",
+    "LINK/USD",
+    "UNI/USD"
+  ],
+  "spreads": {
+    "BTC/USD": 0.0001,
+    "ETH/USD": 0.0001,
+    "BTC/USDC": 0.0001,
+    "ETH/USDC": 0.0001,
+    "ETH/BTC": 0.00017317516668115095,
+    "SOL/BTC": 0.0001704012950499389,
+    "SOL/USD": 0.0001354187825850214,
+    "XRP/USD": 0.0001,
+    "DOGE/USD": 0.00014069644741484348,
+    "SHIB/USD": 0.002436053593179027,
+    "LINK/USD": 0.00012413878716398063,
+    "UNI/USD": 0.00028789405498786064
+  },
+  "windows": [
+    [
+      "2026-02-01",
+      "2026-03-01"
+    ],
+    [
+      "2026-03-01",
+      "2026-04-01"
+    ],
+    [
+      "2026-04-01",
+      "2026-05-01"
+    ],
+    [
+      "2026-05-01",
+      "2026-06-01"
+    ],
+    [
+      "2026-06-01",
+      "2026-07-01"
+    ],
+    [
+      "2026-07-01",
+      "2026-07-17"
+    ]
+  ],
+  "configs": {
+    "4h_h6": {
+      "thr_0.55": {
+        "threshold": 0.55,
+        "n_trades": 1099,
+        "per_window_starter_taker": [
+          {
+            "window": "2026-02-01->2026-03-01",
+            "n": 232,
+            "total_net_starter_taker": -6.597853412448674
+          },
+          {
+            "window": "2026-03-01->2026-04-01",
+            "n": 187,
+            "total_net_starter_taker": -3.848394422618151
+          },
+          {
+            "window": "2026-04-01->2026-05-01",
+            "n": 180,
+            "total_net_starter_taker": -3.7943089659978084
+          },
+          {
+            "window": "2026-05-01->2026-06-01",
+            "n": 234,
+            "total_net_starter_taker": -6.195274539436966
+          },
+          {
+            "window": "2026-06-01->2026-07-01",
+            "n": 182,
+            "total_net_starter_taker": -5.753616185346157
+          },
+          {
+            "window": "2026-07-01->2026-07-17",
+            "n": 84,
+            "total_net_starter_taker": -1.5935970044566958
+          }
+        ],
+        "windows_positive": 0,
+        "windows_traded": 6,
+        "fees": {
+          "starter_taker": {
+            "total_net": -27.78304453030445,
+            "avg_net": -0.02528029529600041,
+            "win_rate_net": 0.15468607825295724,
+            "ci95_mean_net": [
+              -0.027080895286368402,
+              -0.02345635160951298
+            ],
+            "significant_positive": false
+          },
+          "starter_maker": {
+            "total_net": -14.59504453030445,
+            "avg_net": -0.013280295296000411,
+            "win_rate_net": 0.2629663330300273,
+            "ci95_mean_net": [
+              -0.015080895286368398,
+              -0.011456351609512975
+            ],
+            "significant_positive": false
+          },
+          "silver_taker": {
+            "total_net": -10.199044530304452,
+            "avg_net": -0.00928029529600041,
+            "win_rate_net": 0.34394904458598724,
+            "ci95_mean_net": [
+              -0.0110808952863684,
+              -0.007456351609512977
+            ],
+            "significant_positive": false
+          }
+        },
+        "avg_gross": -0.0009650159210629883,
+        "win_rate_gross": 0.4968152866242038
+      },
+      "thr_0.6": {
+        "threshold": 0.6,
+        "n_trades": 908,
+        "per_window_starter_taker": [
+          {
+            "window": "2026-02-01->2026-03-01",
+            "n": 214,
+            "total_net_starter_taker": -5.914865266307309
+          },
+          {
+            "window": "2026-03-01->2026-04-01",
+            "n": 156,
+            "total_net_starter_taker": -3.129631278446559
+          },
+          {
+            "window": "2026-04-01->2026-05-01",
+            "n": 140,
+            "total_net_starter_taker": -2.3745601281824085
+          },
+          {
+            "window": "2026-05-01->2026-06-01",
+            "n": 189,
+            "total_net_starter_taker": -5.302058992389652
+          },
+          {
+            "window": "2026-06-01->2026-07-01",
+            "n": 152,
+            "total_net_starter_taker": -4.836029704493377
+          },
+          {
+            "window": "2026-07-01->2026-07-17",
+            "n": 57,
+            "total_net_starter_taker": -0.9944307932544455
+          }
+        ],
+        "windows_positive": 0,
+        "windows_traded": 6,
+        "fees": {
+          "starter_taker": {
+            "total_net": -22.551576163073754,
+            "avg_net": -0.024836537624530565,
+            "win_rate_net": 0.17180616740088106,
+            "ci95_mean_net": [
+              -0.02687706551148737,
+              -0.022818727685749864
+            ],
+            "significant_positive": false
+          },
+          "starter_maker": {
+            "total_net": -11.655576163073752,
+            "avg_net": -0.012836537624530563,
+            "win_rate_net": 0.2841409691629956,
+            "ci95_mean_net": [
+              -0.014877065511487368,
+              -0.010818727685749862
+            ],
+            "significant_positive": false
+          },
+          "silver_taker": {
+            "total_net": -8.023576163073752,
+            "avg_net": -0.008836537624530565,
+            "win_rate_net": 0.3535242290748899,
+            "ci95_mean_net": [
+              -0.010877065511487368,
+              -0.0068187276857498615
+            ],
+            "significant_positive": false
+          }
+        },
+        "avg_gross": -0.0005370195009512268,
+        "win_rate_gross": 0.48237885462555063
+      }
+    },
+    "4h_h12": {
+      "thr_0.55": {
+        "threshold": 0.55,
+        "n_trades": 628,
+        "per_window_starter_taker": [
+          {
+            "window": "2026-02-01->2026-03-01",
+            "n": 126,
+            "total_net_starter_taker": -3.9271759463817406
+          },
+          {
+            "window": "2026-03-01->2026-04-01",
+            "n": 104,
+            "total_net_starter_taker": -1.8743154007146152
+          },
+          {
+            "window": "2026-04-01->2026-05-01",
+            "n": 111,
+            "total_net_starter_taker": -2.46380736757822
+          },
+          {
+            "window": "2026-05-01->2026-06-01",
+            "n": 121,
+            "total_net_starter_taker": -3.55430221343399
+          },
+          {
+            "window": "2026-06-01->2026-07-01",
+            "n": 110,
+            "total_net_starter_taker": -3.9193419504128717
+          },
+          {
+            "window": "2026-07-01->2026-07-17",
+            "n": 56,
+            "total_net_starter_taker": -1.0473617291819857
+          }
+        ],
+        "windows_positive": 0,
+        "windows_traded": 6,
+        "fees": {
+          "starter_taker": {
+            "total_net": -16.786304607703425,
+            "avg_net": -0.02672978440717106,
+            "win_rate_net": 0.2054140127388535,
+            "ci95_mean_net": [
+              -0.02988464679965493,
+              -0.02351125913422118
+            ],
+            "significant_positive": false
+          },
+          "starter_maker": {
+            "total_net": -9.250304607703423,
+            "avg_net": -0.014729784407171057,
+            "win_rate_net": 0.3105095541401274,
+            "ci95_mean_net": [
+              -0.01788464679965493,
+              -0.01151125913422118
+            ],
+            "significant_positive": false
+          },
+          "silver_taker": {
+            "total_net": -6.738304607703424,
+            "avg_net": -0.010729784407171056,
+            "win_rate_net": 0.34394904458598724,
+            "ci95_mean_net": [
+              -0.01388464679965493,
+              -0.007511259134221182
+            ],
+            "significant_positive": false
+          }
+        },
+        "avg_gross": -0.0024034782936581465,
+        "win_rate_gross": 0.4681528662420382
+      },
+      "thr_0.6": {
+        "threshold": 0.6,
+        "n_trades": 543,
+        "per_window_starter_taker": [
+          {
+            "window": "2026-02-01->2026-03-01",
+            "n": 117,
+            "total_net_starter_taker": -3.6323454134618425
+          },
+          {
+            "window": "2026-03-01->2026-04-01",
+            "n": 91,
+            "total_net_starter_taker": -1.454150823980658
+          },
+          {
+            "window": "2026-04-01->2026-05-01",
+            "n": 96,
+            "total_net_starter_taker": -2.2424665748817336
+          },
+          {
+            "window": "2026-05-01->2026-06-01",
+            "n": 99,
+            "total_net_starter_taker": -2.6495131543627957
+          },
+          {
+            "window": "2026-06-01->2026-07-01",
+            "n": 97,
+            "total_net_starter_taker": -3.7227221376279362
+          },
+          {
+            "window": "2026-07-01->2026-07-17",
+            "n": 43,
+            "total_net_starter_taker": -0.6718431901137097
+          }
+        ],
+        "windows_positive": 0,
+        "windows_traded": 6,
+        "fees": {
+          "starter_taker": {
+            "total_net": -14.373041294428678,
+            "avg_net": -0.026469689308340105,
+            "win_rate_net": 0.21178637200736647,
+            "ci95_mean_net": [
+              -0.029906277424921583,
+              -0.02292672140336759
+            ],
+            "significant_positive": false
+          },
+          "starter_maker": {
+            "total_net": -7.857041294428677,
+            "avg_net": -0.014469689308340104,
+            "win_rate_net": 0.31860036832412525,
+            "ci95_mean_net": [
+              -0.01790627742492158,
+              -0.010926721403367588
+            ],
+            "significant_positive": false
+          },
+          "silver_taker": {
+            "total_net": -5.685041294428678,
+            "avg_net": -0.010469689308340106,
+            "win_rate_net": 0.35359116022099446,
+            "ci95_mean_net": [
+              -0.013906277424921582,
+              -0.0069267214033675905
+            ],
+            "significant_positive": false
+          }
+        },
+        "avg_gross": -0.0021439412244232264,
+        "win_rate_gross": 0.4604051565377532
+      }
+    },
+    "1D_h2": {
+      "thr_0.55": {
+        "threshold": 0.55,
+        "n_trades": 494,
+        "per_window_starter_taker": [
+          {
+            "window": "2026-02-01->2026-03-01",
+            "n": 84,
+            "total_net_starter_taker": -3.140350027213662
+          },
+          {
+            "window": "2026-03-01->2026-04-01",
+            "n": 84,
+            "total_net_starter_taker": -1.320532029219548
+          },
+          {
+            "window": "2026-04-01->2026-05-01",
+            "n": 73,
+            "total_net_starter_taker": -1.7861485520384905
+          },
+          {
+            "window": "2026-05-01->2026-06-01",
+            "n": 89,
+            "total_net_starter_taker": -2.8425816884177717
+          },
+          {
+            "window": "2026-06-01->2026-07-01",
+            "n": 107,
+            "total_net_starter_taker": -3.611939766796122
+          },
+          {
+            "window": "2026-07-01->2026-07-17",
+            "n": 57,
+            "total_net_starter_taker": -1.2003427647843605
+          }
+        ],
+        "windows_positive": 0,
+        "windows_traded": 6,
+        "fees": {
+          "starter_taker": {
+            "total_net": -13.901894828469956,
+            "avg_net": -0.028141487507024204,
+            "win_rate_net": 0.1902834008097166,
+            "ci95_mean_net": [
+              -0.03186801211844897,
+              -0.024313802635428698
+            ],
+            "significant_positive": false
+          },
+          "starter_maker": {
+            "total_net": -7.973894828469955,
+            "avg_net": -0.0161414875070242,
+            "win_rate_net": 0.31376518218623484,
+            "ci95_mean_net": [
+              -0.019868012118448967,
+              -0.012313802635428693
+            ],
+            "significant_positive": false
+          },
+          "silver_taker": {
+            "total_net": -5.997894828469956,
+            "avg_net": -0.012141487507024203,
+            "win_rate_net": 0.3603238866396761,
+            "ci95_mean_net": [
+              -0.015868012118448963,
+              -0.008313802635428694
+            ],
+            "significant_positive": false
+          }
+        },
+        "avg_gross": -0.0037832427444717373,
+        "win_rate_gross": 0.4574898785425101
+      },
+      "thr_0.6": {
+        "threshold": 0.6,
+        "n_trades": 440,
+        "per_window_starter_taker": [
+          {
+            "window": "2026-02-01->2026-03-01",
+            "n": 71,
+            "total_net_starter_taker": -2.961978632633068
+          },
+          {
+            "window": "2026-03-01->2026-04-01",
+            "n": 72,
+            "total_net_starter_taker": -0.987202263480317
+          },
+          {
+            "window": "2026-04-01->2026-05-01",
+            "n": 61,
+            "total_net_starter_taker": -1.5889080428587576
+          },
+          {
+            "window": "2026-05-01->2026-06-01",
+            "n": 81,
+            "total_net_starter_taker": -2.580086175534141
+          },
+          {
+            "window": "2026-06-01->2026-07-01",
+            "n": 100,
+            "total_net_starter_taker": -3.521967309007992
+          },
+          {
+            "window": "2026-07-01->2026-07-17",
+            "n": 55,
+            "total_net_starter_taker": -1.1513387031404498
+          }
+        ],
+        "windows_positive": 0,
+        "windows_traded": 6,
+        "fees": {
+          "starter_taker": {
+            "total_net": -12.791481126654727,
+            "avg_net": -0.02907154801512438,
+            "win_rate_net": 0.18409090909090908,
+            "ci95_mean_net": [
+              -0.03296029223149962,
+              -0.025249397107441274
+            ],
+            "significant_positive": false
+          },
+          "starter_maker": {
+            "total_net": -7.511481126654726,
+            "avg_net": -0.017071548015124376,
+            "win_rate_net": 0.30227272727272725,
+            "ci95_mean_net": [
+              -0.020960292231499606,
+              -0.013249397107441272
+            ],
+            "significant_positive": false
+          },
+          "silver_taker": {
+            "total_net": -5.751481126654726,
+            "avg_net": -0.013071548015124376,
+            "win_rate_net": 0.3477272727272727,
+            "ci95_mean_net": [
+              -0.01696029223149961,
+              -0.009249397107441272
+            ],
+            "significant_positive": false
+          }
+        },
+        "avg_gross": -0.004696105403873388,
+        "win_rate_gross": 0.45227272727272727
+      }
+    },
+    "1D_h5": {
+      "thr_0.55": {
+        "threshold": 0.55,
+        "n_trades": 236,
+        "per_window_starter_taker": [
+          {
+            "window": "2026-02-01->2026-03-01",
+            "n": 52,
+            "total_net_starter_taker": -1.7733598187273985
+          },
+          {
+            "window": "2026-03-01->2026-04-01",
+            "n": 33,
+            "total_net_starter_taker": -0.5668321993819486
+          },
+          {
+            "window": "2026-04-01->2026-05-01",
+            "n": 38,
+            "total_net_starter_taker": -0.5626656119525523
+          },
+          {
+            "window": "2026-05-01->2026-06-01",
+            "n": 42,
+            "total_net_starter_taker": -1.7626671932335012
+          },
+          {
+            "window": "2026-06-01->2026-07-01",
+            "n": 48,
+            "total_net_starter_taker": -2.0529457411851064
+          },
+          {
+            "window": "2026-07-01->2026-07-17",
+            "n": 23,
+            "total_net_starter_taker": 0.00994061287992095
+          }
+        ],
+        "windows_positive": 1,
+        "windows_traded": 6,
+        "fees": {
+          "starter_taker": {
+            "total_net": -6.708529951600587,
+            "avg_net": -0.02842597437118893,
+            "win_rate_net": 0.288135593220339,
+            "ci95_mean_net": [
+              -0.036106457448448655,
+              -0.02081387165054324
+            ],
+            "significant_positive": false
+          },
+          "starter_maker": {
+            "total_net": -3.8765299516005873,
+            "avg_net": -0.01642597437118893,
+            "win_rate_net": 0.3389830508474576,
+            "ci95_mean_net": [
+              -0.02410645744844865,
+              -0.008813871650543236
+            ],
+            "significant_positive": false
+          },
+          "silver_taker": {
+            "total_net": -2.9325299516005874,
+            "avg_net": -0.01242597437118893,
+            "win_rate_net": 0.3601694915254237,
+            "ci95_mean_net": [
+              -0.020106457448448654,
+              -0.00481387165054324
+            ],
+            "significant_positive": false
+          }
+        },
+        "avg_gross": -0.00406074473119805,
+        "win_rate_gross": 0.4194915254237288
+      },
+      "thr_0.6": {
+        "threshold": 0.6,
+        "n_trades": 210,
+        "per_window_starter_taker": [
+          {
+            "window": "2026-02-01->2026-03-01",
+            "n": 43,
+            "total_net_starter_taker": -0.9549262869911076
+          },
+          {
+            "window": "2026-03-01->2026-04-01",
+            "n": 30,
+            "total_net_starter_taker": -0.42232648275237283
+          },
+          {
+            "window": "2026-04-01->2026-05-01",
+            "n": 33,
+            "total_net_starter_taker": -0.4744944201812835
+          },
+          {
+            "window": "2026-05-01->2026-06-01",
+            "n": 36,
+            "total_net_starter_taker": -1.6897776917364127
+          },
+          {
+            "window": "2026-06-01->2026-07-01",
+            "n": 46,
+            "total_net_starter_taker": -2.2348829833308668
+          },
+          {
+            "window": "2026-07-01->2026-07-17",
+            "n": 22,
+            "total_net_starter_taker": 0.048112710415672354
+          }
+        ],
+        "windows_positive": 1,
+        "windows_traded": 6,
+        "fees": {
+          "starter_taker": {
+            "total_net": -5.728295154576372,
+            "avg_net": -0.027277595974173202,
+            "win_rate_net": 0.3047619047619048,
+            "ci95_mean_net": [
+              -0.035682997289027525,
+              -0.019236616820325514
+            ],
+            "significant_positive": false
+          },
+          "starter_maker": {
+            "total_net": -3.208295154576371,
+            "avg_net": -0.015277595974173195,
+            "win_rate_net": 0.3523809523809524,
+            "ci95_mean_net": [
+              -0.02368299728902752,
+              -0.0072366168203255145
+            ],
+            "significant_positive": false
+          },
+          "silver_taker": {
+            "total_net": -2.3682951545763715,
+            "avg_net": -0.011277595974173198,
+            "win_rate_net": 0.3761904761904762,
+            "ci95_mean_net": [
+              -0.019682997289027525,
+              -0.003236616820325518
+            ],
+            "significant_positive": false
+          }
+        },
+        "avg_gross": -0.002917503093958372,
+        "win_rate_gross": 0.41904761904761906
+      }
+    }
+  },
+  "baseline": {
+    "per_pair_net": {
+      "BTC/USD": -0.21271800948253214,
+      "ETH/USD": -0.2622293140109261,
+      "BTC/USDC": -0.21271800948253214,
+      "ETH/USDC": -0.2622293140109261,
+      "ETH/BTC": -0.08539569734176798,
+      "SOL/BTC": -0.14506180771973504,
+      "SOL/USD": -0.30934768965351295,
+      "XRP/USD": -0.36305210856203973,
+      "DOGE/USD": -0.32906093477145865,
+      "SHIB/USD": -0.4220242888872967,
+      "LINK/USD": -0.18953917833858075,
+      "UNI/USD": -0.12932459362471702
+    },
+    "equal_weight_net": -0.24355841215716878
+  },
+  "primary_verdict": {
+    "criterion": "starter-taker, thr 0.55, pooled: total_net>0 AND CI95(mean net)>0",
+    "configs_passing": 0,
+    "configs_total": 4,
+    "pass": false
+  }
+}
