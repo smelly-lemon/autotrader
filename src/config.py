@@ -13,40 +13,41 @@ load_dotenv()
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CONFIG_PATH = PROJECT_ROOT / "config.yaml"
 DB_PATH = PROJECT_ROOT / "trades.db"
-
-
-class ModelConfig(BaseModel):
-    name: str
-    temperature: float = 0.2
-    context_window: int = 8192
-
-
-class ModelsConfig(BaseModel):
-    scanner: ModelConfig
-    analyzer: ModelConfig
-    strategist: ModelConfig
+DATA_DIR = PROJECT_ROOT / "data"
+MODEL_DIR = PROJECT_ROOT / "models"
 
 
 class TradingConfig(BaseModel):
     pairs: list[str] = ["BTC/USD", "ETH/USD", "SOL/USD"]
     mode: Literal["paper", "live"] = "paper"
-    initial_balance: float = 1000.0
+    initial_balance: float = 100.0
 
 
 class ScheduleConfig(BaseModel):
-    scan_interval_seconds: int = 120
-    deep_analysis_cooldown: int = 300
-    portfolio_review_hours: int = 4
+    signal_interval_seconds: int = 60
+    candle_fetch_interval: int = 60
+    retrain_hours: int = 24
     data_retention_days: int = 30
+
+
+class MLConfig(BaseModel):
+    target_horizon: int = 15
+    confidence_threshold: float = 0.58
+    position_size_pct: float = 0.10
+    stop_loss_pct: float = 0.025
+    take_profit_pct: float = 0.05
+    max_holding_minutes: int = 120
+    cv_folds: int = 5
+    min_auc_to_trade: float = 0.52
 
 
 class RiskConfig(BaseModel):
     max_position_pct: float = 0.15
     max_open_positions: int = 3
     daily_drawdown_limit_pct: float = 0.05
-    stop_loss_pct: float = 0.03
+    stop_loss_pct: float = 0.025
     max_single_trade_loss_pct: float = 0.02
-    cooldown_after_loss_seconds: int = 900
+    cooldown_after_loss_seconds: int = 300
 
 
 class ExchangeConfig(BaseModel):
@@ -55,30 +56,30 @@ class ExchangeConfig(BaseModel):
     rate_limit: bool = True
 
 
-class ScannerConfig(BaseModel):
-    confidence_threshold: float = 0.65
-
-
 class AppConfig(BaseModel):
     trading: TradingConfig = Field(default_factory=TradingConfig)
-    models: ModelsConfig
     schedule: ScheduleConfig = Field(default_factory=ScheduleConfig)
+    ml: MLConfig = Field(default_factory=MLConfig)
     risk: RiskConfig = Field(default_factory=RiskConfig)
     exchange: ExchangeConfig = Field(default_factory=ExchangeConfig)
-    scanner: ScannerConfig = Field(default_factory=ScannerConfig)
 
-    # Secrets from environment
-    coinbase_api_key: str = ""
-    coinbase_api_secret: str = ""
-    ollama_base_url: str = "http://localhost:11434"
+    coinbase_api_key_name: str = ""
+    coinbase_api_private_key: str = ""
+
+
+def _decode_pem(raw: str) -> str:
+    """Handle \\n escapes in PEM keys from .env files."""
+    if "\\n" in raw:
+        return raw.replace("\\n", "\n")
+    return raw
 
 
 def load_config(path: Path = CONFIG_PATH) -> AppConfig:
     with open(path) as f:
         raw = yaml.safe_load(f)
 
-    raw["coinbase_api_key"] = os.getenv("COINBASE_API_KEY", "")
-    raw["coinbase_api_secret"] = os.getenv("COINBASE_API_SECRET", "")
-    raw["ollama_base_url"] = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+    raw["coinbase_api_key_name"] = os.getenv("COINBASE_API_KEY_NAME", "")
+    pk = os.getenv("COINBASE_API_PRIVATE_KEY", "")
+    raw["coinbase_api_private_key"] = _decode_pem(pk) if pk else ""
 
     return AppConfig(**raw)

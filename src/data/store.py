@@ -6,6 +6,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import pandas as pd
+
 from src.config import DB_PATH
 
 
@@ -79,6 +81,7 @@ class TradeStore:
             CREATE INDEX IF NOT EXISTS idx_decisions_ts ON decisions(timestamp);
         """)
         c.commit()
+        self._ensure_candle_tables()
 
     def log_trade(
         self,
@@ -213,6 +216,88 @@ class TradeStore:
             (limit,),
         ).fetchall()
         return [dict(r) for r in rows]
+
+    # ── Candle storage (1-minute OHLCV) ──────────────────────────────
+
+    def _ensure_candle_tables(self):
+        self.conn.executescript("""
+            CREATE TABLE IF NOT EXISTS candles (
+                symbol TEXT NOT NULL,
+                timeframe TEXT NOT NULL,
+                timestamp TEXT NOT NULL,
+                open REAL NOT NULL,
+                high REAL NOT NULL,
+                low REAL NOT NULL,
+                close REAL NOT NULL,
+                volume REAL NOT NULL,
+                UNIQUE(symbol, timeframe, timestamp)
+            );
+            CREATE INDEX IF NOT EXISTS idx_candles_sym_tf_ts
+                ON candles(symbol, timeframe, timestamp);
+        """)
+        self.conn.commit()
+
+    def upsert_candles(self, symbol: str, timeframe: str, df: pd.DataFrame):
+        """Insert or replace candles from a DataFrame with DatetimeIndex."""
+        rows = []
+        for ts, row in df.iterrows():
+            rows.append((
+                symbol, timeframe, ts.isoformat(),
+                float(row["open"]), float(row["high"]),
+                float(row["low"]), float(row["close"]), float(row["volume"]),
+            ))
+        self.conn.executemany(
+            """INSERT OR REPLACE INTO candles
+               (symbol, timeframe, timestamp, open, high, low, close, volume)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+            rows,
+        )
+        self.conn.commit()
+
+    def get_candles(
+        self, symbol: str, timeframe: str = "1m", limit: int = 500,
+    ) -> pd.DataFrame:
+        rows = self.conn.execute(
+            """SELECT timestamp, open, high, low, close, volume
+               FROM candles WHERE symbol=? AND timeframe=?
+               ORDER BY timestamp DESC LIMIT ?""",
+            (symbol, timeframe, limit),
+        ).fetchall()
+        if not rows:
+            return pd.DataFrame(columns=["open", "high", "low", "close", "volume"])
+        df = pd.DataFrame([dict(r) for r in rows])
+        df["timestamp"] = pd.to_datetime(df["timestamp"], utc=True)
+        df.set_index("timestamp", inplace=True)
+        return df.sort_index()
+
+    def get_all_candles_df(self, symbol: str, timeframe: str = "1m") -> pd.DataFrame:
+        """Return all candles for a pair as a DataFrame (for training)."""
+        rows = self.conn.execute(
+            """SELECT timestamp, open, high, low, close, volume
+               FROM candles WHERE symbol=? AND timeframe=?
+               ORDER BY timestamp ASC""",
+            (symbol, timeframe),
+        ).fetchall()
+        if not rows:
+            return pd.DataFrame(columns=["open", "high", "low", "close", "volume"])
+        df = pd.DataFrame([dict(r) for r in rows])
+        df["timestamp"] = pd.to_datetime(df["timestamp"], utc=True)
+        df.set_index("timestamp", inplace=True)
+        return df
+
+    def get_candle_count(self, symbol: str, timeframe: str = "1m") -> int:
+        row = self.conn.execute(
+            "SELECT COUNT(*) as c FROM candles WHERE symbol=? AND timeframe=?",
+            (symbol, timeframe),
+        ).fetchone()
+        return row["c"] if row else 0
+
+    def get_latest_candle_ts(self, symbol: str, timeframe: str = "1m") -> str | None:
+        row = self.conn.execute(
+            "SELECT MAX(timestamp) as ts FROM candles WHERE symbol=? AND timeframe=?",
+            (symbol, timeframe),
+        ).fetchone()
+        return row["ts"] if row else None
 
     def close(self):
         if self._conn:

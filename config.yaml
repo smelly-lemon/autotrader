@@ -3,41 +3,34 @@ trading:
     - BTC/USD
     - ETH/USD
     - SOL/USD
-  mode: paper  # "paper" or "live" -- live requires explicit confirmation
-  initial_balance: 1000.0  # paper trading starting balance
-
-models:
-  scanner:
-    name: mistral:latest
-    temperature: 0.1
-    context_window: 8192
-  analyzer:
-    name: qwen3.6:35b-a3b-coding-bf16
-    temperature: 0.2
-    context_window: 32768
-  strategist:
-    name: gpt-oss:120b
-    temperature: 0.3
-    context_window: 32768
+  mode: paper
+  initial_balance: 100.0
 
 schedule:
-  scan_interval_seconds: 120       # fast scan every 2 minutes
-  deep_analysis_cooldown: 300      # minimum 5 min between deep analyses per pair
-  portfolio_review_hours: 4        # full portfolio review every 4 hours
-  data_retention_days: 30          # how long to keep candle data
+  signal_interval_seconds: 60
+  candle_fetch_interval: 60
+  retrain_hours: 24
+  data_retention_days: 30
+
+ml:
+  target_horizon: 15          # predict 15-min forward direction
+  confidence_threshold: 0.58  # P(up) > this → long, P(up) < (1 - this) → short
+  position_size_pct: 0.10
+  stop_loss_pct: 0.025
+  take_profit_pct: 0.05
+  max_holding_minutes: 120
+  cv_folds: 5
+  min_auc_to_trade: 0.52     # don't trade unless model shows edge in CV
 
 risk:
-  max_position_pct: 0.15           # max 15% of portfolio per trade
+  max_position_pct: 0.15
   max_open_positions: 3
-  daily_drawdown_limit_pct: 0.05   # halt trading if daily loss exceeds 5%
-  stop_loss_pct: 0.03              # 3% default stop-loss
-  max_single_trade_loss_pct: 0.02  # 2% max loss per trade
-  cooldown_after_loss_seconds: 900 # 15-min pause after a losing trade
+  daily_drawdown_limit_pct: 0.05
+  stop_loss_pct: 0.025
+  max_single_trade_loss_pct: 0.02
+  cooldown_after_loss_seconds: 300
 
 exchange:
   name: coinbase
   sandbox: false
   rate_limit: true
-
-scanner:
-  confidence_threshold: 0.65       # escalate to deep analysis above this

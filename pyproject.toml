@@ -1,40 +1,31 @@
-[project]
-name = "auto-trader"
-version = "0.1.0"
-description = "LLM-autonomous crypto trading system using local Ollama models"
-requires-python = ">=3.11"
-dependencies = [
-    "ccxt",
-    "pandas",
-    "pandas-ta",
-    "httpx",
-    "apscheduler>=4.0.0a5",
-    "pydantic>=2.0",
-    "pydantic-settings>=2.0",
-    "pyyaml",
-    "rich",
-    "fastapi",
-    "uvicorn[standard]",
-    "jinja2",
-    "python-dotenv",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest",
-    "pytest-asyncio",
-]
-
-[project.scripts]
-auto-trader = "src.main:main"
-
 [build-system]
 requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "auto-trader"
+version = "0.2.0"
+requires-python = ">=3.11"
+dependencies = [
+    "ccxt",
+    "pandas",
+    "numpy",
+    "lightgbm",
+    "scikit-learn",
+    "pydantic",
+    "pyyaml",
+    "python-dotenv",
+    "pyarrow",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio"]
+torch = ["torch"]
+influx = ["influxdb-client"]
+
 [tool.setuptools.packages.find]
+where = ["."]
 include = ["src*"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
-testpaths = ["tests"]

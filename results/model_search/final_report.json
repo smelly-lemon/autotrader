@@ -1,0 +1,79 @@
+{
+  "best_config": {
+    "config": "4h_h30_magnitude_0.002_t0.58_hold60",
+    "bar_size": "4h",
+    "horizon": 30,
+    "target_type": "magnitude_0.002",
+    "threshold": 0.58,
+    "max_hold": 60,
+    "n_trades": 142,
+    "win_rate": 0.7113,
+    "total_net_return": 3.373716,
+    "sharpe": 6.579,
+    "profit_factor": 2.562,
+    "max_drawdown": -0.0694,
+    "final_equity": 13373.72,
+    "score": 16.855397999999997
+  },
+  "oos_metrics": {
+    "n_trades": 256,
+    "win_rate": 0.4609375,
+    "total_net_return": 0.7532679155838874,
+    "sharpe": 2.0476296108881513,
+    "profit_factor": 1.2031448566559069,
+    "max_drawdown": -0.07407886797132382,
+    "final_equity": 10753.267915583881,
+    "per_pair": {
+      "ETH-BTC": {
+        "n": 39,
+        "net": -0.03882810164010382,
+        "wins": 16
+      },
+      "UNI-USD": {
+        "n": 14,
+        "net": 0.1046090032926566,
+        "wins": 8
+      },
+      "XRP-USD": {
+        "n": 31,
+        "net": 0.3162007516567413,
+        "wins": 17
+      },
+      "DOGE-USD": {
+        "n": 25,
+        "net": 0.37139942838281514,
+        "wins": 12
+      },
+      "SOL-BTC": {
+        "n": 23,
+        "net": 0.002663674070332564,
+        "wins": 11
+      },
+      "LINK-USD": {
+        "n": 29,
+        "net": 0.21257077124767698,
+        "wins": 17
+      },
+      "SHIB-USD": {
+        "n": 23,
+        "net": 0.029861864291359452,
+        "wins": 11
+      },
+      "SOL-USD": {
+        "n": 24,
+        "net": 0.20678031235141692,
+        "wins": 11
+      },
+      "BTC-USD": {
+        "n": 22,
+        "net": -0.3977334187720588,
+        "wins": 7
+      },
+      "ETH-USD": {
+        "n": 26,
+        "net": -0.05425636929694802,
+        "wins": 8
+      }
+    }
+  }
+}

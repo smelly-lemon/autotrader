@@ -1,0 +1,6 @@
+config,model_type,bar_size,horizon,target_type,n_trades,win_rate,total_net_return,sharpe,profit_factor,max_drawdown,final_equity,score
+lgbm_4h_h30_binary,lgbm,4h,30,binary,124,0.7097,3.631482,8.92,4.773,-0.0472,13631.48,42.57516
+lgbm_4h_h30_magnitude_0.002,lgbm,4h,30,magnitude_0.002,118,0.7119,3.721419,8.405,4.157,-0.0374,13721.42,34.939585
+lgbm_4h_h30_magnitude_0.001,lgbm,4h,30,magnitude_0.001,155,0.6645,3.355334,7.491,3.356,-0.0335,13355.33,25.139795999999997
+rf_4h_h30_magnitude_0.002,random_forest,4h,30,magnitude_0.002,1069,0.5987,-96224517861.77292,0.0,0.473,0.0,-96224517851773.34,0.0
+rf_4h_h30_magnitude_0.001,random_forest,4h,30,magnitude_0.001,1208,0.5894,-87538952806.43526,0.0,0.459,0.0,-87538952796435.86,0.0
