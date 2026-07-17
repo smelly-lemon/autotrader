@@ -111,9 +111,10 @@ class LiveCollector:
                     "product_id": pair,
                 })
 
-                # Fetch recent trades
+                # Fetch recent trades (100 covers bursts better than 50;
+                # overlap across cycles is deduped by trade_id at flush)
                 try:
-                    trades = await exchange.fetch_trades(symbol, limit=50)
+                    trades = await exchange.fetch_trades(symbol, limit=100)
                     for t in trades:
                         tid = str(t.get("id", ""))
                         if tid and tid == self._last_trade_id.get(pair):
@@ -166,10 +167,16 @@ class LiveCollector:
         if path.exists():
             existing = pd.read_parquet(path)
             combined = pd.concat([existing, new_data])
-            combined = combined[~combined.index.duplicated(keep="last")]
-            combined.sort_index(inplace=True)
         else:
             combined = new_data
+
+        # Matches must dedupe on trade_id: distinct trades can share a
+        # millisecond timestamp, and index-based dedupe would drop them.
+        if "trade_id" in combined.columns:
+            combined = combined[~combined["trade_id"].duplicated(keep="last")]
+        else:
+            combined = combined[~combined.index.duplicated(keep="last")]
+        combined.sort_index(inplace=True)
 
         combined.to_parquet(path, engine="pyarrow")
 
