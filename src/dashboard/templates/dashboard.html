@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Trader Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0f1117;
+            --surface: #1a1d27;
+            --surface2: #242836;
+            --border: #2d3248;
+            --text: #e4e6f0;
+            --text-dim: #8b8fa3;
+            --green: #22c55e;
+            --red: #ef4444;
+            --blue: #3b82f6;
+            --amber: #f59e0b;
+            --radius: 12px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        header h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; }
+
+        .mode-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .mode-paper { background: rgba(59,130,246,0.15); color: var(--blue); }
+        .mode-live { background: rgba(239,68,68,0.15); color: var(--red); }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+        }
+        .stat-card .label { font-size: 0.78rem; color: var(--text-dim); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+        .stat-card .value { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; }
+        .positive { color: var(--green); }
+        .negative { color: var(--red); }
+
+        .chart-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+        .chart-section h2 { font-size: 1rem; margin-bottom: 16px; font-weight: 600; }
+
+        .section { margin-bottom: 32px; }
+        .section h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        thead th {
+            text-align: left;
+            padding: 10px 12px;
+            background: var(--surface);
+            color: var(--text-dim);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+        }
+        tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        tbody tr:hover { background: var(--surface2); }
+
+        .side-buy { color: var(--green); font-weight: 600; }
+        .side-sell { color: var(--red); font-weight: 600; }
+        .status-open { color: var(--blue); }
+        .status-closed { color: var(--text-dim); }
+        .status-stopped { color: var(--red); }
+
+        .signal-opportunity { color: var(--amber); font-weight: 600; }
+        .signal-nothing { color: var(--text-dim); }
+        .signal-buy { color: var(--green); font-weight: 600; }
+        .signal-sell { color: var(--red); font-weight: 600; }
+        .signal-hold { color: var(--text-dim); }
+
+        .veto-badge {
+            background: rgba(239,68,68,0.15);
+            color: var(--red);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .reasoning {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: help;
+        }
+
+        .tab-bar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+        .tab-bar button {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-dim);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+        .tab-bar button.active { background: var(--surface2); color: var(--text); border-color: var(--blue); }
+        .tab-bar button:hover { color: var(--text); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .table-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow-x: auto;
+        }
+
+        .refresh-info { color: var(--text-dim); font-size: 0.75rem; }
+
+        @media (max-width: 768px) {
+            .container { padding: 16px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .stat-card .value { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>Auto-Trader</h1>
+                <span class="refresh-info">Pairs: {{ config.trading.pairs | join(', ') }}</span>
+            </div>
+            <span class="mode-badge mode-{{ config.trading.mode }}">{{ config.trading.mode }}</span>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Portfolio Value</div>
+                <div class="value">${{ "%.2f"|format(portfolio_value) }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Daily P&L</div>
+                <div class="value {{ 'positive' if daily_pnl >= 0 else 'negative' }}">
+                    {{ "+" if daily_pnl >= 0 else "" }}${{ "%.2f"|format(daily_pnl) }}
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Total P&L</div>
+                <div class="value {{ 'positive' if total_pnl >= 0 else 'negative' }}">
+                    {{ "+" if total_pnl >= 0 else "" }}${{ "%.2f"|format(total_pnl) }}
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Win Rate</div>
+                <div class="value">{{ "%.1f"|format(win_rate) }}%</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Wins / Losses</div>
+                <div class="value"><span class="positive">{{ wins }}</span> / <span class="negative">{{ losses }}</span></div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Open Positions</div>
+                <div class="value">{{ open_trades | length }}</div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2>Portfolio Value Over Time</h2>
+            <canvas id="portfolioChart" height="80"></canvas>
+        </div>
+
+        <div class="section">
+            <div class="tab-bar">
+                <button class="active" onclick="switchTab('trades', this)">Trades</button>
+                <button onclick="switchTab('decisions', this)">Model Decisions</button>
+                <button onclick="switchTab('positions', this)">Open Positions</button>
+            </div>
+
+            <div id="tab-trades" class="tab-content active">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Symbol</th>
+                                <th>Side</th>
+                                <th>Price</th>
+                                <th>Amount</th>
+                                <th>Cost</th>
+                                <th>P&L</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for t in recent_trades %}
+                            <tr>
+                                <td>{{ t.timestamp[:19] }}</td>
+                                <td>{{ t.symbol }}</td>
+                                <td class="side-{{ t.side }}">{{ t.side | upper }}</td>
+                                <td>${{ "%.2f"|format(t.price) }}</td>
+                                <td>{{ "%.6f"|format(t.amount) }}</td>
+                                <td>${{ "%.2f"|format(t.cost) }}</td>
+                                <td class="{{ 'positive' if (t.pnl or 0) >= 0 else 'negative' }}">
+                                    {% if t.pnl is not none %}${{ "%.2f"|format(t.pnl) }}{% else %}-{% endif %}
+                                </td>
+                                <td class="status-{{ t.status }}">{{ t.status }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% if not recent_trades %}
+                            <tr><td colspan="8" style="text-align:center;color:var(--text-dim);padding:40px;">No trades yet</td></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tab-decisions" class="tab-content">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Symbol</th>
+                                <th>Tier</th>
+                                <th>Action</th>
+                                <th>Confidence</th>
+                                <th>Executed</th>
+                                <th>Reasoning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in recent_decisions %}
+                            <tr>
+                                <td>{{ d.timestamp[:19] }}</td>
+                                <td>{{ d.symbol }}</td>
+                                <td>{{ d.model_tier }}</td>
+                                <td class="signal-{{ d.action }}">{{ d.action | upper }}</td>
+                                <td>{{ "%.0f"|format((d.confidence or 0) * 100) }}%</td>
+                                <td>
+                                    {% if d.risk_vetoed %}<span class="veto-badge">VETOED</span>
+                                    {% elif d.was_executed %}<span class="positive">YES</span>
+                                    {% else %}-{% endif %}
+                                </td>
+                                <td class="reasoning" title="{{ d.reasoning or '' }}">{{ d.reasoning or '-' }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% if not recent_decisions %}
+                            <tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:40px;">No decisions yet</td></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tab-positions" class="tab-content">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Side</th>
+                                <th>Entry Price</th>
+                                <th>Amount</th>
+                                <th>Cost</th>
+                                <th>Stop Loss</th>
+                                <th>Take Profit</th>
+                                <th>Opened</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for t in open_trades %}
+                            <tr>
+                                <td>{{ t.symbol }}</td>
+                                <td class="side-{{ t.side }}">{{ t.side | upper }}</td>
+                                <td>${{ "%.2f"|format(t.price) }}</td>
+                                <td>{{ "%.6f"|format(t.amount) }}</td>
+                                <td>${{ "%.2f"|format(t.cost) }}</td>
+                                <td>{% if t.stop_loss %}${{ "%.2f"|format(t.stop_loss) }}{% else %}-{% endif %}</td>
+                                <td>{% if t.take_profit %}${{ "%.2f"|format(t.take_profit) }}{% else %}-{% endif %}</td>
+                                <td>{{ t.timestamp[:19] }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% if not open_trades %}
+                            <tr><td colspan="8" style="text-align:center;color:var(--text-dim);padding:40px;">No open positions</td></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(name, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + name).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        const labels = {{ snapshot_labels | safe }};
+        const values = {{ snapshot_values | safe }};
+
+        if (labels.length > 1) {
+            const ctx = document.getElementById('portfolioChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Portfolio Value ($)',
+                        data: values,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.08)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 2,
+                        pointHoverRadius: 5,
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => '$' + ctx.parsed.y.toFixed(2)
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(45,50,72,0.5)' },
+                            ticks: { color: '#8b8fa3', maxTicksLimit: 10 },
+                        },
+                        y: {
+                            grid: { color: 'rgba(45,50,72,0.5)' },
+                            ticks: {
+                                color: '#8b8fa3',
+                                callback: v => '$' + v.toFixed(0)
+                            },
+                        }
+                    },
+                    interaction: { intersect: false, mode: 'index' },
+                }
+            });
+        } else {
+            document.getElementById('portfolioChart').parentElement.innerHTML +=
+                '<p style="color:var(--text-dim);text-align:center;padding:40px 0;">Chart will appear after the first portfolio review cycle</p>';
+        }
+
+        setTimeout(() => location.reload(), 60000);
+    </script>
+</body>
+</html>
