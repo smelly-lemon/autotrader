@@ -1,0 +1,51 @@
+{
+  "n_trades": 800,
+  "mean_net_maker_bps": 199.1,
+  "cluster_bootstrap": {
+    "n_weeks": 77,
+    "ci95_bps": [
+      -4.5,
+      423.2
+    ],
+    "p_leq_zero": 0.0271
+  },
+  "trade_bootstrap_p_leq_zero": 0.0,
+  "month_concentration": {
+    "n_months": 24,
+    "best_months": {
+      "2025-04": {
+        "mean_net_bps": 1125.0,
+        "n": 51
+      },
+      "2024-12": {
+        "mean_net_bps": 850.0,
+        "n": 44
+      },
+      "2026-07": {
+        "mean_net_bps": 823.0,
+        "n": 5
+      }
+    },
+    "loo_worst_mean_net_bps": 136.0,
+    "loo_worst_month_removed": "2025-04",
+    "mean_net_bps_after_dropping_3_best_months": 86.2,
+    "n_after_dropping_3_best": 700
+  },
+  "pair_breadth": {
+    "n_pairs": 66,
+    "frac_pairs_positive_net": 0.697,
+    "orig12": {
+      "n": 97,
+      "mean_net_bps": 203.8
+    },
+    "new_pairs": {
+      "n": 703,
+      "mean_net_bps": 198.4
+    }
+  },
+  "beta_baseline": {
+    "mean_unconditional_72h_gross_bps": -12.6,
+    "mean_unconditional_72h_net_maker_bps": -132.6,
+    "n_bars": 948389
+  }
+}

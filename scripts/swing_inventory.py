@@ -29,6 +29,7 @@ PHASE 2 — strategy screen (rules fixed before looking at Phase 1 output):
 Output: research/swing_screen_results.json
 """
 
+import argparse
 import json
 import sys
 import time
@@ -45,6 +46,8 @@ OUT_PATH = PROJECT_ROOT / "research" / "swing_screen_results.json"
 DAY_MS = 86_400_000
 INVENTORY_DAYS = 600
 SCREEN_DAYS = 730
+CACHE_DIR = PROJECT_ROOT / "data" / "external" / "h1"
+DUMP_TRADES = False  # set by --dump-trades
 
 MIN_HISTORY_DAYS = 350
 MIN_MEDIAN_DOLLAR_VOL = 250_000
@@ -149,8 +152,19 @@ def screen(ex, selected: list[str]) -> dict:
           flush=True)
     since = ex.milliseconds() - SCREEN_DAYS * DAY_MS
     candles, spreads = {}, {}
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
     for sym in selected:
-        df = fetch_paginated(ex, sym, "1h", since)
+        cache = CACHE_DIR / f"{sym.replace('/', '_')}.parquet"
+        df = pd.DataFrame()
+        if cache.exists():
+            cached = pd.read_parquet(cache)
+            if len(cached) and (pd.Timestamp.now(tz="UTC") - cached.index[-1]
+                                ) < pd.Timedelta(days=3):
+                df = cached
+        if df.empty:
+            df = fetch_paginated(ex, sym, "1h", since)
+            if len(df):
+                df.to_parquet(cache)
         if len(df) < MIN_HISTORY_DAYS * 24 // 2:
             print(f"  {sym}: only {len(df)} bars, skipping", flush=True)
             continue
@@ -184,6 +198,7 @@ def screen(ex, selected: list[str]) -> dict:
                                    else (r_np <= -k * s_np))
                     trades = sequential_trades(sig, df["open"].to_numpy(), H, df.index)
                     for tr in trades:
+                        tr["pair"] = sym
                         tr["net_maker"] = tr["gross"] - MAKER_RT
                         tr["net_taker"] = tr["gross"] - TAKER_RT - spreads[sym]
                     all_trades.extend(trades)
@@ -222,22 +237,49 @@ def summarize(fam: str, L: int, H: int, k: float,
         "pass": bool(net_maker.mean() > 0 and ci[0] > 0 and frac_pos >= 0.6
                      and len(trades) >= 100),
     })
+    if DUMP_TRADES:
+        out["trades"] = [{"pair": t.get("pair", ""), "entry_ts": t["entry_ts"],
+                          "gross": round(t["gross"], 6)} for t in trades]
     return out
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--min-amp-pct", type=float, default=None,
+                    help="Select ALL eligible pairs with mean|3d| >= this pct "
+                         "(instead of the default top-12 by amplitude). Used for "
+                         "the widened confirmation batch; rules are otherwise "
+                         "identical to the original screen.")
+    ap.add_argument("--reuse-inventory", type=Path, default=None,
+                    help="Reuse phase1_inventory from a previous results JSON.")
+    ap.add_argument("--out", type=Path, default=OUT_PATH)
+    ap.add_argument("--dump-trades", action="store_true",
+                    help="Include raw per-trade records in the output JSON "
+                         "(needed for cluster-robust statistics).")
+    args = ap.parse_args()
+    global DUMP_TRADES
+    DUMP_TRADES = args.dump_trades
+
     ex = ccxt.coinbase({"enableRateLimit": True})
-    inv = inventory(ex)
+    if args.reuse_inventory and args.reuse_inventory.exists():
+        inv = json.loads(args.reuse_inventory.read_text())["phase1_inventory"]
+        print(f"Reusing inventory ({len(inv)} pairs) from {args.reuse_inventory}")
+    else:
+        inv = inventory(ex)
 
     eligible = [r for r in inv
                 if r["days"] >= MIN_HISTORY_DAYS
                 and r["median_dollar_vol"] >= MIN_MEDIAN_DOLLAR_VOL
                 and "mean_abs_r3d_pct" in r]
     eligible.sort(key=lambda r: r["mean_abs_r3d_pct"], reverse=True)
-    selected = [r["pair"] for r in eligible[:N_SELECT]]
-    print(f"\nSelected (top {N_SELECT} by mean |3d move|, "
-          f"vol>=${MIN_MEDIAN_DOLLAR_VOL / 1e3:.0f}K/d, hist>={MIN_HISTORY_DAYS}d):")
-    for r in eligible[:N_SELECT]:
+    if args.min_amp_pct is not None:
+        chosen = [r for r in eligible if r["mean_abs_r3d_pct"] >= args.min_amp_pct]
+    else:
+        chosen = eligible[:N_SELECT]
+    selected = [r["pair"] for r in chosen]
+    print(f"\nSelected {len(selected)} pairs "
+          f"(vol>=${MIN_MEDIAN_DOLLAR_VOL / 1e3:.0f}K/d, hist>={MIN_HISTORY_DAYS}d):")
+    for r in chosen:
         print(f"  {r['pair']:<14} mean|3d| {r['mean_abs_r3d_pct']:.2f}%  "
               f"breakeven capture {r['breakeven_capture_maker_3d']:.0%}  "
               f"${r['median_dollar_vol'] / 1e6:.1f}M/d")
@@ -246,12 +288,14 @@ def main() -> None:
 
     report = {"generated": datetime.now(timezone.utc).isoformat(),
               "design": "pre-registered; see module docstring",
+              "selection": (f"mean|3d| >= {args.min_amp_pct}%" if args.min_amp_pct
+                            else f"top {N_SELECT} by mean|3d|"),
               "phase1_inventory": inv,
               "phase2_selected": selected,
               "phase2_screen": phase2}
-    OUT_PATH.parent.mkdir(exist_ok=True)
-    OUT_PATH.write_text(json.dumps(report, indent=2))
-    print(f"\nWrote {OUT_PATH}\n")
+    args.out.parent.mkdir(exist_ok=True)
+    args.out.write_text(json.dumps(report, indent=2))
+    print(f"\nWrote {args.out}\n")
 
     print("=== Phase 2 configs (pooled, net at maker 120bps RT) ===")
     for c in phase2["configs"]:
