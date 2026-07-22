@@ -1,0 +1,687 @@
+{
+  "generated": "2026-07-22T02:06:40.539179+00:00",
+  "design": "pre-registered; see module docstring",
+  "spreads_bps": {
+    "BTC/USD": 1.0,
+    "ETH/USD": 1.0,
+    "SOL/USD": 1.1,
+    "XRP/USD": 1.0,
+    "DOGE/USD": 1.1,
+    "LINK/USD": 1.1,
+    "UNI/USD": 3.1,
+    "SHIB/USD": 15.8
+  },
+  "cost_scenarios_rt_bps": {
+    "maker_starter": 120.0,
+    "taker_starter_plus_spread": 240.0
+  },
+  "F1_mean_reversion": [
+    {
+      "family": "mr",
+      "L_min": 15,
+      "H_min": 60,
+      "k": 2.0,
+      "n_trades": 7491,
+      "per_pair": {
+        "BTC/USD": {
+          "n": 1073,
+          "mean_gross_bps": -0.94
+        },
+        "ETH/USD": {
+          "n": 1082,
+          "mean_gross_bps": -1.6
+        },
+        "SOL/USD": {
+          "n": 1124,
+          "mean_gross_bps": 0.54
+        },
+        "XRP/USD": {
+          "n": 1137,
+          "mean_gross_bps": 3.93
+        },
+        "DOGE/USD": {
+          "n": 1026,
+          "mean_gross_bps": 1.57
+        },
+        "LINK/USD": {
+          "n": 1079,
+          "mean_gross_bps": 0.29
+        },
+        "UNI/USD": {
+          "n": 726,
+          "mean_gross_bps": 5.05
+        },
+        "SHIB/USD": {
+          "n": 244,
+          "mean_gross_bps": 7.3
+        }
+      },
+      "mean_gross_bps": 1.3,
+      "median_gross_bps": 6.4,
+      "gross_ci95_bps": [
+        -1.2,
+        3.79
+      ],
+      "win_rate": 0.535,
+      "months_positive": "5/9",
+      "monthly_mean_gross_bps": {
+        "2025-11": 9.7,
+        "2025-12": -4.4,
+        "2026-01": -3.7,
+        "2026-02": -3.8,
+        "2026-03": 11.1,
+        "2026-04": -2.7,
+        "2026-05": 4.1,
+        "2026-06": 0.8,
+        "2026-07": 4.3
+      },
+      "mean_net_bps": {
+        "spread_only": -0.43,
+        "maker_starter": -118.7,
+        "taker_starter": -240.43
+      },
+      "total_net_pct": {
+        "spread_only": -32.2,
+        "maker_starter": -8892.2,
+        "taker_starter": -18010.6
+      },
+      "pass_primary_maker": false,
+      "pass_secondary_spread": false
+    },
+    {
+      "family": "mr",
+      "L_min": 15,
+      "H_min": 60,
+      "k": 3.0,
+      "n_trades": 2738,
+      "per_pair": {
+        "BTC/USD": {
+          "n": 451,
+          "mean_gross_bps": -0.42
+        },
+        "ETH/USD": {
+          "n": 424,
+          "mean_gross_bps": 0.96
+        },
+        "SOL/USD": {
+          "n": 415,
+          "mean_gross_bps": 0.02
+        },
+        "XRP/USD": {
+          "n": 387,
+          "mean_gross_bps": 11.55
+        },
+        "DOGE/USD": {
+          "n": 381,
+          "mean_gross_bps": 1.18
+        },
+        "LINK/USD": {
+          "n": 370,
+          "mean_gross_bps": 0.52
+        },
+        "UNI/USD": {
+          "n": 226,
+          "mean_gross_bps": 6.64
+        },
+        "SHIB/USD": {
+          "n": 84,
+          "mean_gross_bps": 16.5
+        }
+      },
+      "mean_gross_bps": 3.0,
+      "median_gross_bps": 11.48,
+      "gross_ci95_bps": [
+        -1.87,
+        7.78
+      ],
+      "win_rate": 0.548,
+      "months_positive": "6/9",
+      "monthly_mean_gross_bps": {
+        "2025-11": 42.4,
+        "2025-12": -26.9,
+        "2026-01": -5.9,
+        "2026-02": 5.0,
+        "2026-03": 11.4,
+        "2026-04": -5.3,
+        "2026-05": 4.4,
+        "2026-06": 8.2,
+        "2026-07": 4.4
+      },
+      "mean_net_bps": {
+        "spread_only": 1.34,
+        "maker_starter": -117.0,
+        "taker_starter": -238.66
+      },
+      "total_net_pct": {
+        "spread_only": 36.6,
+        "maker_starter": -3203.4,
+        "taker_starter": -6534.6
+      },
+      "pass_primary_maker": false,
+      "pass_secondary_spread": false
+    },
+    {
+      "family": "mr",
+      "L_min": 60,
+      "H_min": 240,
+      "k": 2.0,
+      "n_trades": 2397,
+      "per_pair": {
+        "BTC/USD": {
+          "n": 353,
+          "mean_gross_bps": -2.17
+        },
+        "ETH/USD": {
+          "n": 351,
+          "mean_gross_bps": -1.78
+        },
+        "SOL/USD": {
+          "n": 347,
+          "mean_gross_bps": -11.92
+        },
+        "XRP/USD": {
+          "n": 345,
+          "mean_gross_bps": 0.11
+        },
+        "DOGE/USD": {
+          "n": 326,
+          "mean_gross_bps": -10.15
+        },
+        "LINK/USD": {
+          "n": 345,
+          "mean_gross_bps": -1.13
+        },
+        "UNI/USD": {
+          "n": 242,
+          "mean_gross_bps": 3.08
+        },
+        "SHIB/USD": {
+          "n": 88,
+          "mean_gross_bps": 1.01
+        }
+      },
+      "mean_gross_bps": -3.48,
+      "median_gross_bps": 6.81,
+      "gross_ci95_bps": [
+        -11.11,
+        4.01
+      ],
+      "win_rate": 0.525,
+      "months_positive": "5/9",
+      "monthly_mean_gross_bps": {
+        "2025-11": -33.9,
+        "2025-12": -25.3,
+        "2026-01": 3.0,
+        "2026-02": -15.5,
+        "2026-03": 7.1,
+        "2026-04": -13.0,
+        "2026-05": 9.6,
+        "2026-06": 13.6,
+        "2026-07": 17.2
+      },
+      "mean_net_bps": {
+        "spread_only": -5.28,
+        "maker_starter": -123.48,
+        "taker_starter": -245.28
+      },
+      "total_net_pct": {
+        "spread_only": -126.5,
+        "maker_starter": -2959.9,
+        "taker_starter": -5879.3
+      },
+      "pass_primary_maker": false,
+      "pass_secondary_spread": false
+    },
+    {
+      "family": "mr",
+      "L_min": 60,
+      "H_min": 240,
+      "k": 3.0,
+      "n_trades": 1028,
+      "per_pair": {
+        "BTC/USD": {
+          "n": 158,
+          "mean_gross_bps": -3.58
+        },
+        "ETH/USD": {
+          "n": 151,
+          "mean_gross_bps": -0.67
+        },
+        "SOL/USD": {
+          "n": 157,
+          "mean_gross_bps": -0.38
+        },
+        "XRP/USD": {
+          "n": 141,
+          "mean_gross_bps": -5.9
+        },
+        "DOGE/USD": {
+          "n": 154,
+          "mean_gross_bps": -1.01
+        },
+        "LINK/USD": {
+          "n": 138,
+          "mean_gross_bps": 6.57
+        },
+        "UNI/USD": {
+          "n": 92,
+          "mean_gross_bps": -5.77
+        },
+        "SHIB/USD": {
+          "n": 37,
+          "mean_gross_bps": -27.07
+        }
+      },
+      "mean_gross_bps": -2.28,
+      "median_gross_bps": 12.75,
+      "gross_ci95_bps": [
+        -16.21,
+        11.59
+      ],
+      "win_rate": 0.532,
+      "months_positive": "6/9",
+      "monthly_mean_gross_bps": {
+        "2025-11": -76.1,
+        "2025-12": -83.1,
+        "2026-01": 19.3,
+        "2026-02": 0.9,
+        "2026-03": 25.5,
+        "2026-04": -5.7,
+        "2026-05": 1.6,
+        "2026-06": 43.0,
+        "2026-07": 66.1
+      },
+      "mean_net_bps": {
+        "spread_only": -4.04,
+        "maker_starter": -122.28,
+        "taker_starter": -244.04
+      },
+      "total_net_pct": {
+        "spread_only": -41.5,
+        "maker_starter": -1257.0,
+        "taker_starter": -2508.7
+      },
+      "pass_primary_maker": false,
+      "pass_secondary_spread": false
+    }
+  ],
+  "F2_momentum": [
+    {
+      "family": "mom",
+      "L_min": 15,
+      "H_min": 60,
+      "k": 2.0,
+      "n_trades": 7575,
+      "per_pair": {
+        "BTC/USD": {
+          "n": 1098,
+          "mean_gross_bps": 1.0
+        },
+        "ETH/USD": {
+          "n": 1054,
+          "mean_gross_bps": 0.13
+        },
+        "SOL/USD": {
+          "n": 1105,
+          "mean_gross_bps": 4.1
+        },
+        "XRP/USD": {
+          "n": 1130,
+          "mean_gross_bps": 2.62
+        },
+        "DOGE/USD": {
+          "n": 1085,
+          "mean_gross_bps": 0.48
+        },
+        "LINK/USD": {
+          "n": 1072,
+          "mean_gross_bps": 1.12
+        },
+        "UNI/USD": {
+          "n": 752,
+          "mean_gross_bps": 6.73
+        },
+        "SHIB/USD": {
+          "n": 279,
+          "mean_gross_bps": 5.66
+        }
+      },
+      "mean_gross_bps": 2.26,
+      "median_gross_bps": -4.33,
+      "gross_ci95_bps": [
+        -0.04,
+        4.64
+      ],
+      "win_rate": 0.471,
+      "months_positive": "6/9",
+      "monthly_mean_gross_bps": {
+        "2025-11": 3.4,
+        "2025-12": -0.4,
+        "2026-01": 8.4,
+        "2026-02": -2.2,
+        "2026-03": -1.7,
+        "2026-04": 1.2,
+        "2026-05": 3.0,
+        "2026-06": 4.0,
+        "2026-07": 3.9
+      },
+      "mean_net_bps": {
+        "spread_only": 0.46,
+        "maker_starter": -117.74,
+        "taker_starter": -239.54
+      },
+      "total_net_pct": {
+        "spread_only": 35.2,
+        "maker_starter": -8919.1,
+        "taker_starter": -18144.8
+      },
+      "pass_primary_maker": false,
+      "pass_secondary_spread": false
+    },
+    {
+      "family": "mom",
+      "L_min": 15,
+      "H_min": 60,
+      "k": 3.0,
+      "n_trades": 2966,
+      "per_pair": {
+        "BTC/USD": {
+          "n": 436,
+          "mean_gross_bps": 1.09
+        },
+        "ETH/USD": {
+          "n": 428,
+          "mean_gross_bps": 4.87
+        },
+        "SOL/USD": {
+          "n": 439,
+          "mean_gross_bps": 7.83
+        },
+        "XRP/USD": {
+          "n": 457,
+          "mean_gross_bps": 3.69
+        },
+        "DOGE/USD": {
+          "n": 440,
+          "mean_gross_bps": 3.57
+        },
+        "LINK/USD": {
+          "n": 375,
+          "mean_gross_bps": 8.97
+        },
+        "UNI/USD": {
+          "n": 279,
+          "mean_gross_bps": 17.66
+        },
+        "SHIB/USD": {
+          "n": 112,
+          "mean_gross_bps": 20.94
+        }
+      },
+      "mean_gross_bps": 6.7,
+      "median_gross_bps": -3.26,
+      "gross_ci95_bps": [
+        2.43,
+        11.2
+      ],
+      "win_rate": 0.48,
+      "months_positive": "8/9",
+      "monthly_mean_gross_bps": {
+        "2025-11": 4.5,
+        "2025-12": -5.0,
+        "2026-01": 16.3,
+        "2026-02": 4.6,
+        "2026-03": 5.1,
+        "2026-04": 5.1,
+        "2026-05": 9.4,
+        "2026-06": 12.3,
+        "2026-07": 2.0
+      },
+      "mean_net_bps": {
+        "spread_only": 4.91,
+        "maker_starter": -113.3,
+        "taker_starter": -235.09
+      },
+      "total_net_pct": {
+        "spread_only": 145.6,
+        "maker_starter": -3360.3,
+        "taker_starter": -6972.8
+      },
+      "pass_primary_maker": false,
+      "pass_secondary_spread": true
+    },
+    {
+      "family": "mom",
+      "L_min": 60,
+      "H_min": 240,
+      "k": 2.0,
+      "n_trades": 2329,
+      "per_pair": {
+        "BTC/USD": {
+          "n": 329,
+          "mean_gross_bps": -1.69
+        },
+        "ETH/USD": {
+          "n": 331,
+          "mean_gross_bps": 0.06
+        },
+        "SOL/USD": {
+          "n": 345,
+          "mean_gross_bps": -5.17
+        },
+        "XRP/USD": {
+          "n": 344,
+          "mean_gross_bps": -4.63
+        },
+        "DOGE/USD": {
+          "n": 316,
+          "mean_gross_bps": 1.09
+        },
+        "LINK/USD": {
+          "n": 323,
+          "mean_gross_bps": 2.05
+        },
+        "UNI/USD": {
+          "n": 251,
+          "mean_gross_bps": 18.16
+        },
+        "SHIB/USD": {
+          "n": 90,
+          "mean_gross_bps": -5.29
+        }
+      },
+      "mean_gross_bps": 0.51,
+      "median_gross_bps": -8.38,
+      "gross_ci95_bps": [
+        -7.68,
+        8.79
+      ],
+      "win_rate": 0.471,
+      "months_positive": "7/9",
+      "monthly_mean_gross_bps": {
+        "2025-11": 25.9,
+        "2025-12": 2.0,
+        "2026-01": 4.7,
+        "2026-02": -9.7,
+        "2026-03": 4.1,
+        "2026-04": 14.3,
+        "2026-05": 6.9,
+        "2026-06": -34.1,
+        "2026-07": 1.3
+      },
+      "mean_net_bps": {
+        "spread_only": -1.33,
+        "maker_starter": -119.49,
+        "taker_starter": -241.33
+      },
+      "total_net_pct": {
+        "spread_only": -31.0,
+        "maker_starter": -2783.0,
+        "taker_starter": -5620.6
+      },
+      "pass_primary_maker": false,
+      "pass_secondary_spread": false
+    },
+    {
+      "family": "mom",
+      "L_min": 60,
+      "H_min": 240,
+      "k": 3.0,
+      "n_trades": 965,
+      "per_pair": {
+        "BTC/USD": {
+          "n": 143,
+          "mean_gross_bps": -4.56
+        },
+        "ETH/USD": {
+          "n": 136,
+          "mean_gross_bps": 7.73
+        },
+        "SOL/USD": {
+          "n": 145,
+          "mean_gross_bps": -16.63
+        },
+        "XRP/USD": {
+          "n": 147,
+          "mean_gross_bps": 11.83
+        },
+        "DOGE/USD": {
+          "n": 140,
+          "mean_gross_bps": -8.14
+        },
+        "LINK/USD": {
+          "n": 123,
+          "mean_gross_bps": 5.32
+        },
+        "UNI/USD": {
+          "n": 96,
+          "mean_gross_bps": -1.2
+        },
+        "SHIB/USD": {
+          "n": 35,
+          "mean_gross_bps": -11.86
+        }
+      },
+      "mean_gross_bps": -1.33,
+      "median_gross_bps": -13.95,
+      "gross_ci95_bps": [
+        -15.45,
+        12.73
+      ],
+      "win_rate": 0.462,
+      "months_positive": "4/9",
+      "monthly_mean_gross_bps": {
+        "2025-11": 19.5,
+        "2025-12": -17.2,
+        "2026-01": -4.3,
+        "2026-02": 10.5,
+        "2026-03": 4.6,
+        "2026-04": 31.2,
+        "2026-05": -2.5,
+        "2026-06": -22.5,
+        "2026-07": -24.3
+      },
+      "mean_net_bps": {
+        "spread_only": -3.12,
+        "maker_starter": -121.33,
+        "taker_starter": -243.12
+      },
+      "total_net_pct": {
+        "spread_only": -30.1,
+        "maker_starter": -1170.9,
+        "taker_starter": -2346.1
+      },
+      "pass_primary_maker": false,
+      "pass_secondary_spread": false
+    }
+  ],
+  "F3_hour_of_day": {
+    "mean_ret_bps_by_utc_hour": {
+      "0": 0.78,
+      "1": 2.05,
+      "2": -0.43,
+      "3": 2.3,
+      "4": -3.24,
+      "5": -2.64,
+      "6": -5.86,
+      "7": 1.61,
+      "8": -2.01,
+      "9": 1.14,
+      "10": -5.49,
+      "11": 0.76,
+      "12": 2.19,
+      "13": -6.58,
+      "14": 1.01,
+      "15": 2.29,
+      "16": -1.39,
+      "17": -4.29,
+      "18": -3.77,
+      "19": 2.58,
+      "20": 1.41,
+      "21": 7.15,
+      "22": 3.2,
+      "23": -10.91
+    },
+    "frac_months_positive_by_hour": {
+      "0": 0.56,
+      "1": 0.56,
+      "2": 0.44,
+      "3": 0.67,
+      "4": 0.44,
+      "5": 0.33,
+      "6": 0.33,
+      "7": 0.44,
+      "8": 0.33,
+      "9": 0.56,
+      "10": 0.44,
+      "11": 0.56,
+      "12": 0.56,
+      "13": 0.44,
+      "14": 0.56,
+      "15": 0.78,
+      "16": 0.44,
+      "17": 0.44,
+      "18": 0.33,
+      "19": 0.78,
+      "20": 0.22,
+      "21": 0.78,
+      "22": 0.56,
+      "23": 0.22
+    },
+    "note": "pooled across 8 USD pairs; diagnostic only, no cost model"
+  },
+  "F4_usdc_parity": {
+    "BTC": {
+      "n_minutes": 366107,
+      "mean_bps": -0.0,
+      "std_bps": 0.005,
+      "median_abs_bps": 0.0,
+      "p99_abs_bps": 0.0,
+      "max_abs_bps": 3.1,
+      "frac_minutes_exceeding": {
+        "gt_5bp": 0.0,
+        "gt_10bp": 0.0,
+        "gt_20bp": 0.0,
+        "gt_50bp": 0.0
+      },
+      "episodes_gt10bp": 0,
+      "median_episode_minutes": 0.0
+    },
+    "ETH": {
+      "n_minutes": 366107,
+      "mean_bps": -0.0,
+      "std_bps": 0.006,
+      "median_abs_bps": 0.0,
+      "p99_abs_bps": 0.0,
+      "max_abs_bps": 3.9,
+      "frac_minutes_exceeding": {
+        "gt_5bp": 0.0,
+        "gt_10bp": 0.0,
+        "gt_20bp": 0.0,
+        "gt_50bp": 0.0
+      },
+      "episodes_gt10bp": 0,
+      "median_episode_minutes": 0.0
+    }
+  }
+}
