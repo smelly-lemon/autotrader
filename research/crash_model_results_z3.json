@@ -1,0 +1,161 @@
+{
+  "design": "pre-registered; see docstring",
+  "z_event": -3.0,
+  "n_events_total": 800,
+  "oos_evaluation": {
+    "n_oos_events": 602,
+    "quarters": [
+      "2025Q2",
+      "2025Q3",
+      "2025Q4",
+      "2026Q1",
+      "2026Q2",
+      "2026Q3"
+    ],
+    "take_all": {
+      "n": 602,
+      "mean_net_bps": 194.0,
+      "ci95": [
+        -51.2,
+        459.9
+      ],
+      "p_leq0": 0.06205
+    },
+    "model_top_half": {
+      "n": 302,
+      "mean_net_bps": 250.9,
+      "ci95": [
+        -89.8,
+        593.6
+      ],
+      "p_leq0": 0.07555
+    },
+    "PRIMARY_top_half_minus_all": {
+      "diff_bps": 56.8,
+      "ci95": [
+        -133.1,
+        224.7
+      ],
+      "p_leq0": 0.2455,
+      "pass": false
+    },
+    "blunt_z3_rule": {
+      "n": 602,
+      "mean_net_bps": 194.0,
+      "ci95": [
+        -55.5,
+        465.7
+      ],
+      "p_leq0": 0.0696
+    },
+    "cap5_model": {
+      "n": 207,
+      "mean_net_bps": 143.1,
+      "ci95": [
+        -55.8,
+        346.1
+      ],
+      "p_leq0": 0.0807
+    },
+    "cap5_chrono": {
+      "n": 207,
+      "mean_net_bps": 72.6,
+      "ci95": [
+        -244.7,
+        496.0
+      ],
+      "p_leq0": 0.3852
+    },
+    "SECONDARY_cap5_model_minus_chrono": {
+      "diff_bps": 70.4,
+      "ci95": [
+        -327.1,
+        354.3
+      ],
+      "p_leq0": 0.3137,
+      "pass": false
+    },
+    "per_quarter": [
+      {
+        "quarter": "2025Q2",
+        "n": 85,
+        "take_all_bps": 832.8,
+        "top_half_bps": 1100.9
+      },
+      {
+        "quarter": "2025Q3",
+        "n": 76,
+        "take_all_bps": -5.5,
+        "top_half_bps": 75.9
+      },
+      {
+        "quarter": "2025Q4",
+        "n": 128,
+        "take_all_bps": 229.2,
+        "top_half_bps": 366.8
+      },
+      {
+        "quarter": "2026Q1",
+        "n": 158,
+        "take_all_bps": -58.8,
+        "top_half_bps": 197.4
+      },
+      {
+        "quarter": "2026Q2",
+        "n": 150,
+        "take_all_bps": 148.5,
+        "top_half_bps": -227.2
+      },
+      {
+        "quarter": "2026Q3",
+        "n": 5,
+        "take_all_bps": 823.0,
+        "top_half_bps": 1165.7
+      }
+    ],
+    "feature_gain_pct": {
+      "btc_r24": 35.0,
+      "r168": 10.9,
+      "listing_age_days": 10.0,
+      "r24": 8.0,
+      "idio_r24": 5.6,
+      "crash_z": 5.4,
+      "r72": 4.5,
+      "sigma24": 4.3,
+      "dd30": 3.4,
+      "spread_bps": 3.1,
+      "amp3d": 2.8,
+      "vol24_ratio": 2.6,
+      "log_price": 2.6,
+      "log_dollar_vol": 1.9
+    }
+  },
+  "pair_heterogeneity": {
+    "n_pairs": 66,
+    "chi2": 52.3,
+    "dof": 65,
+    "p_homogeneous_approx": 0.5,
+    "tau_bps": 0.0,
+    "shrunk_top5_bps": {
+      "AERO/USD": 199.0,
+      "STRK/USD": 199.0,
+      "NEAR/USD": 199.0,
+      "ORCA/USD": 199.0,
+      "PENGU/USD": 199.0
+    },
+    "shrunk_bottom5_bps": {
+      "IO/USD": 199.0,
+      "IP/USD": 199.0,
+      "JTO/USD": 199.0,
+      "KAITO/USD": 199.0,
+      "ZRO/USD": 199.0
+    },
+    "corr_pair_mean_net_vs_statics": {
+      "amp3d": 0.01,
+      "ldv": 0.003,
+      "spread": 0.103,
+      "age": 0.111
+    },
+    "note": "descriptive, full-sample; tau = cross-pair effect spread"
+  }
+}

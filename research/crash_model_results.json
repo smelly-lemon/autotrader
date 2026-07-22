@@ -1,0 +1,167 @@
+{
+  "design": "pre-registered; see docstring",
+  "n_events_total": 2743,
+  "oos_evaluation": {
+    "n_oos_events": 2458,
+    "quarters": [
+      "2025Q1",
+      "2025Q2",
+      "2025Q3",
+      "2025Q4",
+      "2026Q1",
+      "2026Q2",
+      "2026Q3"
+    ],
+    "take_all": {
+      "n": 2458,
+      "mean_net_bps": -39.9,
+      "ci95": [
+        -159.5,
+        85.1
+      ],
+      "p_leq0": 0.73675
+    },
+    "model_top_half": {
+      "n": 1230,
+      "mean_net_bps": -3.0,
+      "ci95": [
+        -135.1,
+        138.2
+      ],
+      "p_leq0": 0.5134
+    },
+    "PRIMARY_top_half_minus_all": {
+      "diff_bps": 36.8,
+      "ci95": [
+        -38.5,
+        112.5
+      ],
+      "p_leq0": 0.1652,
+      "pass": false
+    },
+    "blunt_z3_rule": {
+      "n": 115,
+      "mean_net_bps": 1.3,
+      "ci95": [
+        -314.4,
+        214.9
+      ],
+      "p_leq0": 0.5213
+    },
+    "cap5_model": {
+      "n": 393,
+      "mean_net_bps": 168.7,
+      "ci95": [
+        44.1,
+        297.6
+      ],
+      "p_leq0": 0.0034
+    },
+    "cap5_chrono": {
+      "n": 393,
+      "mean_net_bps": -3.4,
+      "ci95": [
+        -221.0,
+        274.8
+      ],
+      "p_leq0": 0.54215
+    },
+    "SECONDARY_cap5_model_minus_chrono": {
+      "diff_bps": 172.1,
+      "ci95": [
+        -121.2,
+        395.7
+      ],
+      "p_leq0": 0.1039,
+      "pass": false
+    },
+    "per_quarter": [
+      {
+        "quarter": "2025Q1",
+        "n": 338,
+        "take_all_bps": -179.9,
+        "top_half_bps": -245.9
+      },
+      {
+        "quarter": "2025Q2",
+        "n": 359,
+        "take_all_bps": 64.3,
+        "top_half_bps": 69.9
+      },
+      {
+        "quarter": "2025Q3",
+        "n": 388,
+        "take_all_bps": 48.4,
+        "top_half_bps": 88.6
+      },
+      {
+        "quarter": "2025Q4",
+        "n": 422,
+        "take_all_bps": 32.5,
+        "top_half_bps": 224.6
+      },
+      {
+        "quarter": "2026Q1",
+        "n": 422,
+        "take_all_bps": -169.6,
+        "top_half_bps": -56.5
+      },
+      {
+        "quarter": "2026Q2",
+        "n": 478,
+        "take_all_bps": -63.8,
+        "top_half_bps": -115.4
+      },
+      {
+        "quarter": "2026Q3",
+        "n": 51,
+        "take_all_bps": 183.2,
+        "top_half_bps": 6.2
+      }
+    ],
+    "feature_gain_pct": {
+      "listing_age_days": 17.2,
+      "btc_r24": 16.6,
+      "r168": 11.6,
+      "r72": 10.6,
+      "dd30": 7.0,
+      "vol24_ratio": 6.8,
+      "idio_r24": 6.6,
+      "sigma24": 4.2,
+      "log_price": 4.0,
+      "crash_z": 3.8,
+      "amp3d": 3.3,
+      "r24": 3.1,
+      "log_dollar_vol": 2.7,
+      "spread_bps": 2.5
+    }
+  },
+  "pair_heterogeneity": {
+    "n_pairs": 66,
+    "chi2": 73.0,
+    "dof": 65,
+    "p_homogeneous_approx": 0.2361,
+    "tau_bps": 71.8,
+    "shrunk_top5_bps": {
+      "BNKR/USD": 66.0,
+      "B3/USD": 58.0,
+      "AERO/USD": 35.0,
+      "JTO/USD": 14.0,
+      "SNX/USD": 14.0
+    },
+    "shrunk_bottom5_bps": {
+      "MOG/USD": -46.0,
+      "BONK/USD": -47.0,
+      "MOODENG/USD": -49.0,
+      "EIGEN/USD": -51.0,
+      "COOKIE/USD": -53.0
+    },
+    "corr_pair_mean_net_vs_statics": {
+      "amp3d": 0.208,
+      "ldv": 0.001,
+      "spread": -0.124,
+      "age": -0.131
+    },
+    "note": "descriptive, full-sample; tau = cross-pair effect spread"
+  }
+}
