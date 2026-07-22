@@ -21,8 +21,11 @@ class TradingConfig(BaseModel):
     pairs: list[str] = ["BTC/USD", "ETH/USD", "SOL/USD"]
     mode: Literal["paper", "live"] = "paper"
     initial_balance: float = 100.0
-    # Simulated execution costs (paper mode). Default = Coinbase starter tier.
+    # Simulated execution costs (paper mode). Verified account tier (Intro 1):
+    # taker 1.2%/side, maker 0.6%/side. The sleeve strategies model post-only
+    # limit execution -> maker.
     taker_fee_pct: float = 0.012
+    maker_fee_pct: float = 0.006
     slippage_pct: float = 0.0005
 
 

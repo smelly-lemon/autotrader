@@ -5,7 +5,8 @@ trading:
     - SOL/USD
   mode: paper
   initial_balance: 100.0
-  taker_fee_pct: 0.012   # Coinbase starter tier (<$1K/mo volume); silver = 0.004
+  taker_fee_pct: 0.012   # verified account tier (Intro 1), taker per side
+  maker_fee_pct: 0.006   # verified account tier (Intro 1), maker per side
   slippage_pct: 0.0005
 
 schedule:

@@ -83,9 +83,13 @@ class PaperExecutor(BaseExecutor):
         symbol: str,
         amount_usd: float,
         current_price: float,
-        stop_loss_pct: float = 0.03,
-        take_profit_pct: float = 0.06,
+        stop_loss_pct: float | None = 0.03,
+        take_profit_pct: float | None = 0.06,
+        metadata: dict | None = None,
+        model_tier: str = "analyzer",
     ) -> OrderResult:
+        """Simulated market buy. Pass stop_loss_pct/take_profit_pct=None for
+        strategies with rule-based exits (no automatic SL/TP monitoring)."""
         if amount_usd > self.cash:
             return OrderResult(
                 success=False,
@@ -97,8 +101,8 @@ class PaperExecutor(BaseExecutor):
         fill_price = current_price * (1 + self.slippage_pct)
         effective_entry = fill_price * (1 + self.fee_pct)
         amount = amount_usd / effective_entry
-        stop_loss = current_price * (1 - stop_loss_pct)
-        take_profit = current_price * (1 + take_profit_pct)
+        stop_loss = current_price * (1 - stop_loss_pct) if stop_loss_pct else None
+        take_profit = current_price * (1 + take_profit_pct) if take_profit_pct else None
 
         trade_id = self.store.log_trade(
             symbol=symbol,
@@ -107,7 +111,8 @@ class PaperExecutor(BaseExecutor):
             amount=amount,
             stop_loss=stop_loss,
             take_profit=take_profit,
-            model_tier="analyzer",
+            model_tier=model_tier,
+            metadata=metadata,
         )
 
         self.positions[symbol] = PaperPosition(
@@ -123,8 +128,10 @@ class PaperExecutor(BaseExecutor):
         order_id = f"paper-{uuid.uuid4().hex[:8]}"
 
         logger.info(
-            "PAPER BUY: %s | %.6f @ $%.2f eff. ($%.2f incl. costs) | SL: $%.2f TP: $%.2f",
-            symbol, amount, effective_entry, amount_usd, stop_loss, take_profit,
+            "PAPER BUY: %s | %.6f @ $%.4f eff. ($%.2f incl. costs) | SL: %s TP: %s",
+            symbol, amount, effective_entry, amount_usd,
+            f"${stop_loss:.4f}" if stop_loss else "-",
+            f"${take_profit:.4f}" if take_profit else "-",
         )
 
         return OrderResult(
