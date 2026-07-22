@@ -1,0 +1,323 @@
+{
+  "design": "pre-registered; see docstring",
+  "results": [
+    {
+      "family": "F1_donchian_20_10",
+      "n": 591,
+      "mean_gross_bps": 424.7,
+      "mean_net_bps": 304.7,
+      "net_ci95_bps": [
+        -208.7,
+        808.5
+      ],
+      "p_leq0": 0.13,
+      "months_pos": "9/24",
+      "half1_net_bps": 1008.5,
+      "half2_net_bps": -493.1,
+      "median_hold_bars": 296.0,
+      "total_net_pct": 1800.7,
+      "n_pairs": 66,
+      "pass": false
+    },
+    {
+      "family": "F2_donchian_55_20",
+      "n": 171,
+      "mean_gross_bps": 208.2,
+      "mean_net_bps": 88.2,
+      "net_ci95_bps": [
+        -867.3,
+        1161.7
+      ],
+      "p_leq0": 0.4432,
+      "months_pos": "9/20",
+      "half1_net_bps": 475.7,
+      "half2_net_bps": -593.0,
+      "median_hold_bars": 563.0,
+      "total_net_pct": 150.9,
+      "n_pairs": 59,
+      "pass": false
+    },
+    {
+      "family": "F3_trend_pullback",
+      "n": 576,
+      "mean_gross_bps": 75.1,
+      "mean_net_bps": -44.9,
+      "net_ci95_bps": [
+        -219.9,
+        157.3
+      ],
+      "p_leq0": 0.6846,
+      "months_pos": "12/24",
+      "half1_net_bps": 171.3,
+      "half2_net_bps": -216.7,
+      "median_hold_bars": 72.0,
+      "total_net_pct": -258.6,
+      "n_pairs": 66,
+      "pass": false
+    },
+    {
+      "family": "F4_vol_squeeze_breakout",
+      "n": 1270,
+      "mean_gross_bps": 206.5,
+      "mean_net_bps": 86.5,
+      "net_ci95_bps": [
+        -252.6,
+        471.9
+      ],
+      "p_leq0": 0.3444,
+      "months_pos": "11/23",
+      "half1_net_bps": 241.9,
+      "half2_net_bps": -58.9,
+      "median_hold_bars": 120.0,
+      "total_net_pct": 1098.8,
+      "n_pairs": 66,
+      "pass": false
+    },
+    {
+      "family": "F5_new_listing_momo",
+      "n": 356,
+      "mean_gross_bps": 117.2,
+      "mean_net_bps": -2.8,
+      "net_ci95_bps": [
+        -456.0,
+        418.9
+      ],
+      "p_leq0": 0.5055,
+      "months_pos": "8/15",
+      "half1_net_bps": -85.9,
+      "half2_net_bps": 145.1,
+      "median_hold_bars": 168.0,
+      "total_net_pct": -10.1,
+      "n_pairs": 66,
+      "pass": false
+    },
+    {
+      "family": "F6_7d_crash",
+      "n": 1204,
+      "mean_gross_bps": -64.2,
+      "mean_net_bps": -184.2,
+      "net_ci95_bps": [
+        -429.9,
+        84.9
+      ],
+      "p_leq0": 0.9122,
+      "months_pos": "9/24",
+      "half1_net_bps": -43.6,
+      "half2_net_bps": -261.0,
+      "median_hold_bars": 168.0,
+      "total_net_pct": -2218.2,
+      "n_pairs": 66,
+      "pass": false
+    },
+    {
+      "family": "F7_btc_leadlag",
+      "n": 954,
+      "mean_gross_bps": -74.8,
+      "mean_net_bps": -194.8,
+      "net_ci95_bps": [
+        -415.9,
+        40.4
+      ],
+      "p_leq0": 0.9519,
+      "months_pos": "6/24",
+      "half1_net_bps": -82.2,
+      "half2_net_bps": -266.1,
+      "median_hold_bars": 72.0,
+      "total_net_pct": -1858.2,
+      "n_pairs": 66,
+      "pass": false
+    },
+    {
+      "family": "F8_volume_anomaly",
+      "n": 1684,
+      "mean_gross_bps": 94.9,
+      "mean_net_bps": -25.1,
+      "net_ci95_bps": [
+        -166.7,
+        123.5
+      ],
+      "p_leq0": 0.6372,
+      "months_pos": "11/24",
+      "half1_net_bps": 90.1,
+      "half2_net_bps": -102.3,
+      "median_hold_bars": 72.0,
+      "total_net_pct": -421.9,
+      "n_pairs": 66,
+      "pass": false
+    },
+    {
+      "family": "F9_red_streak",
+      "n": 775,
+      "mean_gross_bps": -218.6,
+      "mean_net_bps": -338.6,
+      "net_ci95_bps": [
+        -505.5,
+        -176.0
+      ],
+      "p_leq0": 1.0,
+      "months_pos": "4/24",
+      "half1_net_bps": -514.3,
+      "half2_net_bps": -243.6,
+      "median_hold_bars": 72.0,
+      "total_net_pct": -2624.3,
+      "n_pairs": 66,
+      "pass": false
+    },
+    {
+      "family": "BENCH_24h_crash_rule",
+      "n": 800,
+      "mean_gross_bps": 319.1,
+      "mean_net_bps": 199.1,
+      "net_ci95_bps": [
+        -9.2,
+        423.3
+      ],
+      "p_leq0": 0.0309,
+      "months_pos": "17/24",
+      "half1_net_bps": 398.8,
+      "half2_net_bps": 77.9,
+      "median_hold_bars": 72.0,
+      "total_net_pct": 1592.4,
+      "n_pairs": 66,
+      "pass": false
+    },
+    {
+      "family": "F10_xs_momentum_top5",
+      "n": 508,
+      "mean_gross_bps": 203.9,
+      "mean_net_bps": 83.9,
+      "net_ci95_bps": [
+        -241.3,
+        444.5
+      ],
+      "p_leq0": 0.3254,
+      "months_pos": "12/24",
+      "half1_net_bps": 424.1,
+      "half2_net_bps": -258.9,
+      "median_hold_bars": 168.0,
+      "total_net_pct": 426.3,
+      "n_pairs": 66,
+      "pass": false
+    },
+    {
+      "family": "F11_xs_reversal_bottom5",
+      "n": 508,
+      "mean_gross_bps": 11.4,
+      "mean_net_bps": -108.6,
+      "net_ci95_bps": [
+        -402.5,
+        220.2
+      ],
+      "p_leq0": 0.7593,
+      "months_pos": "11/24",
+      "half1_net_bps": 65.5,
+      "half2_net_bps": -284.1,
+      "median_hold_bars": 168.0,
+      "total_net_pct": -551.8,
+      "n_pairs": 66,
+      "pass": false
+    },
+    {
+      "family": "F12a_majors_donchian_55_20",
+      "n": 194,
+      "mean_gross_bps": 2053.3,
+      "mean_net_bps": 1933.3,
+      "net_ci95_bps": [
+        802.0,
+        3279.0
+      ],
+      "p_leq0": 0.0002,
+      "months_pos": "34/69",
+      "half1_net_bps": 4667.8,
+      "half2_net_bps": 555.4,
+      "median_hold_bars": 27.0,
+      "total_net_pct": 3750.5,
+      "n_pairs": 8,
+      "pass": false
+    },
+    {
+      "family": "F12b_majors_donchian_20_10",
+      "n": 499,
+      "mean_gross_bps": 963.1,
+      "mean_net_bps": 843.1,
+      "net_ci95_bps": [
+        317.7,
+        1432.8
+      ],
+      "p_leq0": 0.0003,
+      "months_pos": "45/116",
+      "half1_net_bps": 1834.7,
+      "half2_net_bps": 283.5,
+      "median_hold_bars": 12.0,
+      "total_net_pct": 4206.9,
+      "n_pairs": 8,
+      "pass": false
+    },
+    {
+      "family": "F12c_majors_200dma_trend",
+      "n": 259,
+      "mean_gross_bps": 1890.4,
+      "mean_net_bps": 1770.4,
+      "net_ci95_bps": [
+        302.3,
+        3929.6
+      ],
+      "p_leq0": 0.0033,
+      "months_pos": "21/67",
+      "half1_net_bps": 6612.1,
+      "half2_net_bps": 342.1,
+      "median_hold_bars": 5.0,
+      "total_net_pct": 4585.4,
+      "n_pairs": 8,
+      "pass": false
+    },
+    {
+      "family": "F13_pooled_lgb",
+      "n": 860,
+      "mean_gross_bps": -40.5,
+      "mean_net_bps": -160.5,
+      "net_ci95_bps": [
+        -287.9,
+        -34.7
+      ],
+      "p_leq0": 0.9937,
+      "months_pos": "3/19",
+      "half1_net_bps": -126.3,
+      "half2_net_bps": -200.9,
+      "median_hold_bars": 72.0,
+      "total_net_pct": -1380.2,
+      "n_pairs": 66,
+      "pass": false
+    },
+    {
+      "family": "F13_pooled_ridge",
+      "n": 468,
+      "mean_gross_bps": -13.8,
+      "mean_net_bps": -133.8,
+      "net_ci95_bps": [
+        -377.7,
+        127.1
+      ],
+      "p_leq0": 0.8576,
+      "months_pos": "6/18",
+      "half1_net_bps": -18.6,
+      "half2_net_bps": -403.6,
+      "median_hold_bars": 72.0,
+      "total_net_pct": -626.0,
+      "n_pairs": 57,
+      "pass": false
+    }
+  ],
+  "day_of_week": {
+    "mean_daily_ret_bps_by_dow": {
+      "Mon": -2.1,
+      "Tue": -23.0,
+      "Wed": 50.7,
+      "Thu": -85.7,
+      "Fri": 47.0,
+      "Sat": 27.9,
+      "Sun": -42.3
+    },
+    "note": "diagnostic only"
+  }
+}
