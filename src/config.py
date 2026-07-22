@@ -81,8 +81,14 @@ def load_config(path: Path = CONFIG_PATH) -> AppConfig:
     with open(path) as f:
         raw = yaml.safe_load(f)
 
-    raw["coinbase_api_key_name"] = os.getenv("COINBASE_API_KEY_NAME", "")
-    pk = os.getenv("COINBASE_API_PRIVATE_KEY", "")
+    # Two CDP key formats are supported (both pass to ccxt as apiKey/secret):
+    #   legacy: COINBASE_API_KEY_NAME (organizations/.../apiKeys/...) +
+    #           COINBASE_API_PRIVATE_KEY (EC PEM, \n-escaped)
+    #   new:    COINBASE_API_KEY_ID (UUID) +
+    #           COINBASE_API_KEY_SECRET (base64 Ed25519)
+    raw["coinbase_api_key_name"] = (
+        os.getenv("COINBASE_API_KEY_NAME") or os.getenv("COINBASE_API_KEY_ID") or "")
+    pk = os.getenv("COINBASE_API_PRIVATE_KEY") or os.getenv("COINBASE_API_KEY_SECRET") or ""
     raw["coinbase_api_private_key"] = _decode_pem(pk) if pk else ""
 
     return AppConfig(**raw)
